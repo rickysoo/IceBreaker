@@ -39,13 +39,6 @@ export default function Home() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-primary-500 rounded-lg flex items-center justify-center">
-                <Handshake className="text-white" size={20} />
-              </div>
-              <div>
-                <h1 className="text-xl font-bold text-gray-900">IceBreaker</h1>
-                <p className="text-sm text-gray-500">AI-Powered Introduction Speech Generator</p>
-              </div>
             </div>
             <div className="flex items-center space-x-4">
             </div>
@@ -92,22 +85,7 @@ export default function Home() {
         </Tabs>
       </main>
 
-      {/* Footer */}
-      <footer className="bg-white border-t border-gray-200 mt-16">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="flex flex-col sm:flex-row justify-between items-center">
-            <div className="flex items-center space-x-3 mb-4 sm:mb-0">
-              <div className="w-8 h-8 bg-primary-500 rounded-lg flex items-center justify-center">
-                <Handshake className="text-white" size={14} />
-              </div>
-              <span className="text-gray-600">IceBreaker</span>
-            </div>
-            <div className="flex items-center space-x-6 text-sm text-gray-500">
-              <span>© 2024 IceBreaker. Powered by AI.</span>
-            </div>
-          </div>
-        </div>
-      </footer>
+
     </div>
   );
 }
