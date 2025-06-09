@@ -28,15 +28,15 @@ export default function FrameworkGuide() {
                 <ul className="text-sm text-gray-700 space-y-2">
                   <li className="flex items-start space-x-2">
                     <span className="text-primary-600 font-bold">1.</span>
-                    <span><strong>Start with a clear identity</strong> – Your name plus a sharp, relevant role or label (e.g. "I'm Ricky, an AI coach and Toastmasters mentor")</span>
+                    <span><strong>Start with a clear identity</strong> – Your name plus a sharp, relevant role or label (e.g. "I'm Sarah, a digital marketing strategist and workshop facilitator")</span>
                   </li>
                   <li className="flex items-start space-x-2">
                     <span className="text-primary-600 font-bold">2.</span>
-                    <span><strong>Add meaningful context</strong> – Share your background, evolution, or community ("I started in web hosting, now I help non-tech people build AI tools")</span>
+                    <span><strong>Add meaningful context</strong> – Share your background, evolution, or community ("I started in corporate finance, now I help small businesses grow their online presence")</span>
                   </li>
                   <li className="flex items-start space-x-2">
                     <span className="text-primary-600 font-bold">3.</span>
-                    <span><strong>Connect with your audience</strong> – Adapt your intro to resonate with the setting (e.g. "I'm a fellow learner" vs. "I help founders")</span>
+                    <span><strong>Connect with your audience</strong> – Adapt your intro to resonate with the setting (e.g. "I'm a fellow entrepreneur" vs. "I help business owners")</span>
                   </li>
                 </ul>
               </div>
@@ -59,11 +59,11 @@ export default function FrameworkGuide() {
                   </li>
                   <li className="flex items-start space-x-2">
                     <span className="text-secondary-600 font-bold">2.</span>
-                    <span><strong>Use simple, specific language</strong> – Avoid jargon; include one clear example (e.g. "I help teams build slide generators using AI prompts")</span>
+                    <span><strong>Use simple, specific language</strong> – Avoid jargon; include one clear example (e.g. "I help restaurants create engaging social media content")</span>
                   </li>
                   <li className="flex items-start space-x-2">
                     <span className="text-secondary-600 font-bold">3.</span>
-                    <span><strong>Show results, not just roles</strong> – Focus on outcomes or impact ("I empower others to use AI without needing to code")</span>
+                    <span><strong>Show results, not just roles</strong> – Focus on outcomes or impact ("I help businesses increase their online engagement by 40%")</span>
                   </li>
                 </ul>
               </div>
@@ -86,11 +86,11 @@ export default function FrameworkGuide() {
                   </li>
                   <li className="flex items-start space-x-2">
                     <span className="text-warning-600 font-bold">2.</span>
-                    <span><strong>Make it relatable and emotional</strong> – Help people feel your passion or transformation (e.g. "I wanted to help people drive, not just build roads")</span>
+                    <span><strong>Make it relatable and emotional</strong> – Help people feel your passion or transformation (e.g. "I wanted to help people connect, not just create content")</span>
                   </li>
                   <li className="flex items-start space-x-2">
                     <span className="text-warning-600 font-bold">3.</span>
-                    <span><strong>Tie your 'why' to your 'what'</strong> – Let your motivation explain the work you do today ("That's why I teach others how to build with AI")</span>
+                    <span><strong>Tie your 'why' to your 'what'</strong> – Let your motivation explain the work you do today ("That's why I focus on authentic storytelling for brands")</span>
                   </li>
                 </ul>
               </div>

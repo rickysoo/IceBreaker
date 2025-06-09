@@ -148,7 +148,7 @@ export default function SpeechForm({ onSpeechGenerated, onStartGeneration, isLoa
                       </FormLabel>
                       <FormControl>
                         <Input 
-                          placeholder="e.g., Sarah Johnson"
+                          placeholder="e.g., Alex Thompson"
                           className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
                           {...field} 
                         />
@@ -179,7 +179,7 @@ export default function SpeechForm({ onSpeechGenerated, onStartGeneration, isLoa
                           </FormLabel>
                           <FormControl>
                             <Input 
-                              placeholder="e.g., AI coach and Toastmasters mentor"
+                              placeholder="e.g., Digital marketing consultant and workshop facilitator"
                               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
                               {...field} 
                             />
@@ -200,7 +200,7 @@ export default function SpeechForm({ onSpeechGenerated, onStartGeneration, isLoa
                           <FormControl>
                             <Textarea 
                               rows={3}
-                              placeholder="e.g., Started in web hosting, evolved into helping non-tech people build AI tools"
+                              placeholder="e.g., Started in corporate finance, evolved into helping small businesses grow their online presence"
                               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors resize-none"
                               {...field}
                               value={field.value ?? ""}
@@ -231,7 +231,7 @@ export default function SpeechForm({ onSpeechGenerated, onStartGeneration, isLoa
                         <FormControl>
                           <Textarea 
                             rows={4}
-                            placeholder="e.g., I help teams build slide generators and content tools using AI prompts. I empower others to use AI without needing to code."
+                            placeholder="e.g., I help restaurants create engaging social media content that drives customer engagement. I empower small business owners to build their online presence without needing a big budget."
                             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors resize-none"
                             {...field} 
                           />

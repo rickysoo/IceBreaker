@@ -42,9 +42,6 @@ export default function Home() {
               </div>
             </div>
             <div className="flex items-center space-x-4">
-              <button className="text-gray-400 hover:text-gray-600 transition-colors">
-                <HelpCircle size={20} />
-              </button>
             </div>
           </div>
         </div>
@@ -99,9 +96,7 @@ export default function Home() {
               <span className="text-gray-600">IceBreaker</span>
             </div>
             <div className="flex items-center space-x-6 text-sm text-gray-500">
-              <a href="#" className="hover:text-gray-700 transition-colors">Privacy Policy</a>
-              <a href="#" className="hover:text-gray-700 transition-colors">Terms of Service</a>
-              <a href="#" className="hover:text-gray-700 transition-colors">Support</a>
+              <span>© 2024 IceBreaker. Powered by AI.</span>
             </div>
           </div>
         </div>
