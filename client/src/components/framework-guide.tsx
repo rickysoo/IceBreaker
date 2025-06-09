@@ -10,8 +10,8 @@ export default function FrameworkGuide() {
             <div className="w-16 h-16 bg-primary-500 rounded-full flex items-center justify-center mx-auto mb-4">
               <BookOpen className="text-white" size={24} />
             </div>
-            <h1 className="text-2xl font-bold text-gray-900 mb-2">The Who–What–Why Framework</h1>
-            <p className="text-gray-600">A proven structure for crafting compelling self-introductions that connect with your audience</p>
+            <h1 className="text-2xl font-bold text-gray-900 mb-2">Introduce Yourself with Who–What–Why</h1>
+            <p className="text-gray-600">Craft a compelling self-introduction speech that connects with your audience</p>
           </div>
           
           <div className="space-y-8">
