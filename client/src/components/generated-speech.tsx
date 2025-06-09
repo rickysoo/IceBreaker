@@ -127,7 +127,7 @@ export default function GeneratedSpeech({ speech, onRegenerate, formData }: Gene
         <div className="flex flex-col sm:flex-row gap-4">
           <Button 
             onClick={copyToClipboard}
-            className="flex-1 bg-success-500 text-white px-6 py-3 rounded-lg font-medium hover:bg-success-600 focus:ring-2 focus:ring-success-500 focus:ring-offset-2 transition-colors flex items-center justify-center space-x-2"
+            className="flex-1 bg-success-500 text-white px-6 py-3 rounded-lg font-bold hover:bg-success-600 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 border border-gray-200 flex items-center justify-center space-x-2"
           >
             <Copy size={16} />
             <span>{copied ? "Copied!" : "Copy to Clipboard"}</span>
@@ -136,7 +136,7 @@ export default function GeneratedSpeech({ speech, onRegenerate, formData }: Gene
             variant="outline"
             onClick={handleRegenerate}
             disabled={regenerateMutation.isPending}
-            className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors flex items-center justify-center space-x-2"
+            className="px-6 py-3 border-2 border-gray-300 text-gray-700 rounded-lg font-bold hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center justify-center space-x-2"
           >
             <RotateCcw size={16} className={regenerateMutation.isPending ? "animate-spin" : ""} />
             <span>{regenerateMutation.isPending ? "Regenerating..." : "Regenerate"}</span>

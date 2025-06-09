@@ -119,7 +119,7 @@ export default function SpeechForm({ onSpeechGenerated, onStartGeneration, isLoa
                 <div className="flex space-x-4">
                   <Button 
                     onClick={() => form.handleSubmit(onSubmit)()}
-                    className="bg-error-500 text-white hover:bg-error-600"
+                    className="bg-error-500 text-white px-6 py-3 rounded-lg font-bold hover:bg-error-600 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 border border-gray-200"
                   >
                     Try Again
                   </Button>
@@ -143,7 +143,7 @@ export default function SpeechForm({ onSpeechGenerated, onStartGeneration, isLoa
                   name="name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-sm font-medium text-gray-700">
+                      <FormLabel className="text-sm font-bold text-gray-900 drop-shadow-sm">
                         Your Name <span className="text-error-500">*</span>
                       </FormLabel>
                       <FormControl>
@@ -165,7 +165,7 @@ export default function SpeechForm({ onSpeechGenerated, onStartGeneration, isLoa
                 <div className="border-l-4 border-primary-500 pl-6">
                   <div className="flex items-center space-x-2 mb-4">
                     <User className="text-primary-500" size={18} />
-                    <h3 className="text-lg font-semibold text-gray-900">WHO you are</h3>
+                    <h3 className="text-lg font-bold text-gray-900 drop-shadow-sm">WHO you are</h3>
                   </div>
                   
                   <div className="space-y-4">
@@ -174,7 +174,7 @@ export default function SpeechForm({ onSpeechGenerated, onStartGeneration, isLoa
                       name="identity"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-sm font-medium text-gray-700">
+                          <FormLabel className="text-sm font-bold text-gray-900 drop-shadow-sm">
                             Your Role & Identity <span className="text-error-500">*</span>
                           </FormLabel>
                           <FormControl>
@@ -194,7 +194,7 @@ export default function SpeechForm({ onSpeechGenerated, onStartGeneration, isLoa
                       name="background"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-sm font-medium text-gray-700">
+                          <FormLabel className="text-sm font-bold text-gray-900 drop-shadow-sm">
                             Background & Context
                           </FormLabel>
                           <FormControl>
@@ -282,7 +282,7 @@ export default function SpeechForm({ onSpeechGenerated, onStartGeneration, isLoa
                   <Button 
                     type="submit"
                     disabled={generateSpeechMutation.isPending}
-                    className="flex-1 bg-primary-500 text-white px-6 py-3 rounded-lg font-medium hover:bg-primary-600 focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-colors flex items-center justify-center space-x-2"
+                    className="flex-1 bg-primary-500 text-white px-6 py-3 rounded-lg font-bold hover:bg-primary-600 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 border border-gray-200 flex items-center justify-center space-x-2"
                   >
                     <Wand2 size={16} />
                     <span>Generate My Speech</span>
@@ -291,7 +291,7 @@ export default function SpeechForm({ onSpeechGenerated, onStartGeneration, isLoa
                     type="button"
                     variant="outline"
                     onClick={clearForm}
-                    className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors flex items-center justify-center space-x-2"
+                    className="px-6 py-3 border-2 border-gray-300 text-gray-700 rounded-lg font-bold hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center justify-center space-x-2"
                   >
                     <RotateCcw size={16} />
                     <span>Clear Form</span>

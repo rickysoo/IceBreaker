@@ -108,11 +108,11 @@ export default function FrameworkGuide({ onSwitchToSpeech }: FrameworkGuideProps
               <Play className="text-white" size={20} />
             </div>
             <div className="flex-1">
-              <h3 className="text-lg font-semibold mb-2">Ready to Create Your Speech?</h3>
-              <p className="text-white/90 text-sm mb-4">Now that you understand the framework, let's create your personalized 300-word introduction speech!</p>
+              <h3 className="text-xl font-bold mb-2 text-white drop-shadow-lg">Ready to Create Your Speech?</h3>
+              <p className="text-white text-base mb-4 font-medium drop-shadow-md">Now that you understand the framework, let's create your personalized 300-word introduction speech!</p>
               <button 
                 onClick={onSwitchToSpeech}
-                className="bg-white text-primary-600 px-6 py-2 rounded-lg font-semibold hover:bg-white/90 transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-105"
+                className="bg-white text-primary-700 px-6 py-3 rounded-lg font-bold hover:bg-gray-50 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 border border-gray-200"
               >
                 Start Creating →
               </button>
