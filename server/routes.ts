@@ -18,14 +18,28 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Create speech request record
       const speechRequest = await storage.createSpeechRequest(validatedData);
       
-      // Generate speech using OpenAI
-      const prompt = `Create a compelling 300-word self-introduction SPEECH using the Who-What-Why framework based on the following information:
+      // Create a comprehensive prompt that fills in gaps intelligently
+      const buildPrompt = () => {
+        const hasName = validatedData.name?.trim();
+        const hasIdentity = validatedData.identity?.trim();
+        const hasBackground = validatedData.background?.trim();
+        const hasWhatYouDo = validatedData.whatYouDo?.trim();
+        const hasMotivation = validatedData.motivation?.trim();
 
-Name: ${validatedData.name}
-Identity/Role: ${validatedData.identity}
-Background: ${validatedData.background || 'Not provided'}
-What they do: ${validatedData.whatYouDo}
-Motivation/Why: ${validatedData.motivation}
+        return `Create a compelling 300-word self-introduction SPEECH using the Who-What-Why framework. 
+
+GIVEN INFORMATION:
+${hasName ? `Name: ${validatedData.name}` : 'Name: [Create a suitable professional name]'}
+${hasIdentity ? `Identity/Role: ${validatedData.identity}` : 'Identity/Role: [Create a relevant professional identity]'}
+${hasBackground ? `Background: ${validatedData.background}` : 'Background: [Create compelling professional background]'}
+${hasWhatYouDo ? `What they do: ${validatedData.whatYouDo}` : 'What they do: [Create meaningful work description]'}
+${hasMotivation ? `Motivation/Why: ${validatedData.motivation}` : 'Motivation/Why: [Create authentic personal motivation]'}
+
+INSTRUCTIONS:
+- For any missing information above, create realistic and authentic details that fit together coherently
+- DO NOT use placeholders like "[Your Name]" or "[Insert...]" in the final speech
+- Make all created details feel genuine and specific
+- Ensure all parts work together to tell a cohesive story
 
 CRITICAL: This is a SPEECH to be SPOKEN out loud, not an essay to be read. Make it sound natural when spoken aloud.
 
@@ -42,10 +56,10 @@ Speech Requirements:
 - Include moments of tension, revelation, or transformation in the narrative
 
 Content Guidelines:
-- Stay true to the core information provided by the user
-- The main points should NOT deviate from what the user inputs
-- Add storytelling flair and dramatization around the user's actual experiences and motivations
-- Make it feel like a compelling personal story while maintaining accuracy to their input
+- Use the provided information exactly as given
+- For missing information, create realistic details that enhance the story
+- Add storytelling flair and dramatization around experiences and motivations
+- Make it feel like a compelling personal story
 
 Framework guidelines:
 - WHO: Start with clear identity, add meaningful context, connect with audience
@@ -60,6 +74,9 @@ Please respond with JSON in this exact format:
   "wordCount": actual_word_count_number,
   "readTime": estimated_read_time_in_minutes
 }`;
+      };
+
+      const prompt = buildPrompt();
 
       // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
       const response = await openai.chat.completions.create({
