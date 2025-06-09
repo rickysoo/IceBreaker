@@ -94,9 +94,9 @@ export default function SpeechForm({ onSpeechGenerated, onStartGeneration, isLoa
           <CardContent className="p-6">
             <div className="flex items-center justify-center space-x-4 py-8">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-500"></div>
-              <div className="text-gray-600">
-                <p className="font-medium">Crafting your introduction...</p>
-                <p className="text-sm text-gray-500">This may take a few moments</p>
+              <div className="text-gray-700">
+                <p className="font-semibold">Crafting your introduction...</p>
+                <p className="text-sm text-gray-600 font-medium">This may take a few moments</p>
               </div>
             </div>
           </CardContent>

@@ -55,20 +55,22 @@ export default function Home() {
 
       <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="h-auto p-0 bg-transparent w-auto mb-8 border-b border-gray-300">
-            <TabsTrigger 
-              value="introduction" 
-              className="text-sm font-medium py-3 px-6 bg-gray-200 border border-gray-300 border-b-0 rounded-t-lg mr-1 data-[state=active]:bg-white data-[state=active]:text-gray-900 data-[state=active]:border-gray-300 data-[state=active]:border-b-white data-[state=active]:relative data-[state=active]:z-10 data-[state=active]:mb-[-1px] data-[state=inactive]:bg-gray-200 data-[state=inactive]:text-gray-600 transition-all duration-200 hover:bg-gray-100"
-            >
-              Framework Guide
-            </TabsTrigger>
-            <TabsTrigger 
-              value="speech" 
-              className="text-sm font-medium py-3 px-6 bg-gray-200 border border-gray-300 border-b-0 rounded-t-lg data-[state=active]:bg-white data-[state=active]:text-gray-900 data-[state=active]:border-gray-300 data-[state=active]:border-b-white data-[state=active]:relative data-[state=active]:z-10 data-[state=active]:mb-[-1px] data-[state=inactive]:bg-gray-200 data-[state=inactive]:text-gray-600 transition-all duration-200 hover:bg-gray-100"
-            >
-              Create Speech
-            </TabsTrigger>
-          </TabsList>
+          <div className="mb-0 border-b border-gray-300 bg-gray-100">
+            <TabsList className="h-auto p-0 bg-transparent w-auto justify-start">
+              <TabsTrigger 
+                value="introduction" 
+                className="text-sm font-semibold py-3 px-6 bg-gray-200 border border-gray-300 border-b-0 rounded-t-lg mr-1 relative data-[state=active]:bg-white data-[state=active]:text-gray-900 data-[state=active]:border-gray-300 data-[state=active]:border-b-white data-[state=active]:z-10 data-[state=active]:mb-[-1px] data-[state=inactive]:bg-gray-200 data-[state=inactive]:text-gray-600 transition-all duration-200 hover:bg-gray-50 hover:text-gray-800"
+              >
+                Framework Guide
+              </TabsTrigger>
+              <TabsTrigger 
+                value="speech" 
+                className="text-sm font-semibold py-3 px-6 bg-gray-200 border border-gray-300 border-b-0 rounded-t-lg relative data-[state=active]:bg-white data-[state=active]:text-gray-900 data-[state=active]:border-gray-300 data-[state=active]:border-b-white data-[state=active]:z-10 data-[state=active]:mb-[-1px] data-[state=inactive]:bg-gray-200 data-[state=inactive]:text-gray-600 transition-all duration-200 hover:bg-gray-50 hover:text-gray-800"
+              >
+                Create Speech
+              </TabsTrigger>
+            </TabsList>
+          </div>
 
           <TabsContent value="introduction" className="mt-0">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
