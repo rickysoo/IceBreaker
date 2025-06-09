@@ -55,16 +55,16 @@ export default function Home() {
 
       <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-2 mb-8 p-2 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-xl shadow-lg">
+          <TabsList className="h-auto p-0 bg-transparent w-auto mb-8 border-b border-gray-300">
             <TabsTrigger 
               value="introduction" 
-              className="text-sm font-semibold py-3 px-6 rounded-lg transition-all duration-300 data-[state=active]:bg-white data-[state=active]:text-primary-600 data-[state=active]:shadow-md text-white hover:bg-white/20"
+              className="text-sm font-medium py-3 px-6 bg-gray-200 border border-gray-300 border-b-0 rounded-t-lg mr-1 data-[state=active]:bg-white data-[state=active]:text-gray-900 data-[state=active]:border-gray-300 data-[state=active]:border-b-white data-[state=active]:relative data-[state=active]:z-10 data-[state=active]:mb-[-1px] data-[state=inactive]:bg-gray-200 data-[state=inactive]:text-gray-600 transition-all duration-200 hover:bg-gray-100"
             >
               Framework Guide
             </TabsTrigger>
             <TabsTrigger 
               value="speech" 
-              className="text-sm font-semibold py-3 px-6 rounded-lg transition-all duration-300 data-[state=active]:bg-white data-[state=active]:text-secondary-600 data-[state=active]:shadow-md text-white hover:bg-white/20"
+              className="text-sm font-medium py-3 px-6 bg-gray-200 border border-gray-300 border-b-0 rounded-t-lg data-[state=active]:bg-white data-[state=active]:text-gray-900 data-[state=active]:border-gray-300 data-[state=active]:border-b-white data-[state=active]:relative data-[state=active]:z-10 data-[state=active]:mb-[-1px] data-[state=inactive]:bg-gray-200 data-[state=inactive]:text-gray-600 transition-all duration-200 hover:bg-gray-100"
             >
               Create Speech
             </TabsTrigger>
