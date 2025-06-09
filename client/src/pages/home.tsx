@@ -27,7 +27,7 @@ export default function Home() {
   };
 
   return (
-    <div className="bg-gray-50 min-h-screen">
+    <div className="bg-gradient-to-br from-purple-50 via-blue-50 to-teal-50 min-h-screen">
       {/* Header */}
       <header className="bg-white shadow-sm border-b border-gray-200">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -77,6 +77,7 @@ export default function Home() {
                   <GeneratedSpeech 
                     speech={generatedSpeech}
                     onRegenerate={handleRegenerate}
+                    formData={null}
                   />
                 )}
               </div>

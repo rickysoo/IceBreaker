@@ -263,7 +263,7 @@ export default function SpeechForm({ onSpeechGenerated, onStartGeneration, isLoa
                         <FormControl>
                           <Textarea 
                             rows={4}
-                            placeholder="e.g., I wanted to help people drive, not just build roads. That's why I teach others how to build with AI."
+                            placeholder="e.g., I believe every small business deserves to compete with the big brands. That's why I focus on creating affordable marketing strategies that actually work."
                             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors resize-none"
                             {...field} 
                           />

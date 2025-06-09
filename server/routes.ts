@@ -37,17 +37,26 @@ Speech Requirements:
 - Make it flow naturally when read aloud
 - Use "you" to directly address the audience
 - Include natural speaking connectors like "Now," "So," "And here's the thing..."
+- Add light storytelling elements and dramatization to make it engaging
+- Use vivid, descriptive language that paints a picture
+- Include moments of tension, revelation, or transformation in the narrative
+
+Content Guidelines:
+- Stay true to the core information provided by the user
+- The main points should NOT deviate from what the user inputs
+- Add storytelling flair and dramatization around the user's actual experiences and motivations
+- Make it feel like a compelling personal story while maintaining accuracy to their input
 
 Framework guidelines:
 - WHO: Start with clear identity, add meaningful context, connect with audience
 - WHAT: Describe who they help and how, use simple specific language, show results not just roles  
 - WHY: Share belief or turning point, make it relatable and emotional, tie why to what
 
-The speech should be exactly around 300 words, engaging, and follow the Who-What-Why structure naturally. Write it as if the person is speaking directly to a live audience.
+The speech should be exactly around 300 words, engaging, and follow the Who-What-Why structure naturally. Write it as if the person is speaking directly to a live audience with confidence and charisma.
 
 Please respond with JSON in this exact format:
 {
-  "speech": "The complete 300-word speech text optimized for speaking",
+  "speech": "The complete 300-word speech text optimized for speaking with storytelling elements",
   "wordCount": actual_word_count_number,
   "readTime": estimated_read_time_in_minutes
 }`;
