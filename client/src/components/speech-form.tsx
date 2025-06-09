@@ -1,0 +1,306 @@
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { insertSpeechRequestSchema } from "@shared/schema";
+import type { InsertSpeechRequest } from "@shared/schema";
+import type { GenerateSpeechResponse } from "@/lib/openai";
+import { apiRequest } from "@/lib/queryClient";
+import { useToast } from "@/hooks/use-toast";
+import { User, Briefcase, Flame, Wand2, RotateCcw, AlertTriangle } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form";
+import { Card, CardContent } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+
+interface SpeechFormProps {
+  onSpeechGenerated: (speech: GenerateSpeechResponse) => void;
+  onStartGeneration: () => void;
+  isLoading: boolean;
+}
+
+export default function SpeechForm({ onSpeechGenerated, onStartGeneration, isLoading }: SpeechFormProps) {
+  const { toast } = useToast();
+  const [hasStarted, setHasStarted] = useState(false);
+
+  const form = useForm<InsertSpeechRequest>({
+    resolver: zodResolver(insertSpeechRequestSchema),
+    defaultValues: {
+      name: "",
+      identity: "",
+      background: "",
+      whatYouDo: "",
+      motivation: "",
+    },
+  });
+
+  const generateSpeechMutation = useMutation({
+    mutationFn: async (data: InsertSpeechRequest): Promise<GenerateSpeechResponse> => {
+      const response = await apiRequest("POST", "/api/speech/generate", data);
+      return response.json();
+    },
+    onSuccess: (data) => {
+      onSpeechGenerated(data);
+      toast({
+        title: "Success!",
+        description: "Your introduction speech has been generated.",
+      });
+    },
+    onError: (error: any) => {
+      console.error("Generation error:", error);
+      toast({
+        title: "Generation Failed",
+        description: error.message || "We encountered an issue while generating your introduction. Please try again.",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const onSubmit = (data: InsertSpeechRequest) => {
+    if (!hasStarted) {
+      setHasStarted(true);
+    }
+    onStartGeneration();
+    generateSpeechMutation.mutate(data);
+  };
+
+  const clearForm = () => {
+    form.reset();
+    setHasStarted(false);
+  };
+
+  const progress = hasStarted ? (isLoading ? 50 : 100) : 0;
+
+  return (
+    <div className="space-y-6">
+      {/* Progress Indicator */}
+      <Card>
+        <CardContent className="p-6">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold text-gray-900">Create Your Introduction</h2>
+            <div className="flex items-center space-x-2 text-sm text-gray-500">
+              <span>Step {isLoading ? "2" : "1"} of 2</span>
+            </div>
+          </div>
+          <Progress value={progress} className="w-full" />
+        </CardContent>
+      </Card>
+
+      {/* Loading State */}
+      {isLoading && (
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center justify-center space-x-4 py-8">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-500"></div>
+              <div className="text-gray-600">
+                <p className="font-medium">Crafting your introduction...</p>
+                <p className="text-sm text-gray-500">This may take a few moments</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Error State */}
+      {generateSpeechMutation.isError && (
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-start space-x-4">
+              <div className="flex-shrink-0">
+                <AlertTriangle className="text-error-500" size={20} />
+              </div>
+              <div className="flex-1">
+                <h3 className="text-lg font-medium text-error-900 mb-2">Generation Failed</h3>
+                <p className="text-error-700 mb-4">
+                  {generateSpeechMutation.error?.message || "We encountered an issue while generating your introduction. This could be due to a temporary service interruption or invalid input."}
+                </p>
+                <div className="flex space-x-4">
+                  <Button 
+                    onClick={() => form.handleSubmit(onSubmit)()}
+                    className="bg-error-500 text-white hover:bg-error-600"
+                  >
+                    Try Again
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Input Form */}
+      {!isLoading && (
+        <Card>
+          <CardContent className="p-6">
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+                
+                {/* Name Input */}
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-sm font-medium text-gray-700">
+                        Your Name <span className="text-error-500">*</span>
+                      </FormLabel>
+                      <FormControl>
+                        <Input 
+                          placeholder="e.g., Sarah Johnson"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
+                          {...field} 
+                        />
+                      </FormControl>
+                      <FormDescription className="text-sm text-gray-500">
+                        This will be used to start your introduction
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                {/* Who Section */}
+                <div className="border-l-4 border-primary-500 pl-6">
+                  <div className="flex items-center space-x-2 mb-4">
+                    <User className="text-primary-500" size={18} />
+                    <h3 className="text-lg font-semibold text-gray-900">WHO you are</h3>
+                  </div>
+                  
+                  <div className="space-y-4">
+                    <FormField
+                      control={form.control}
+                      name="identity"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-sm font-medium text-gray-700">
+                            Your Role & Identity <span className="text-error-500">*</span>
+                          </FormLabel>
+                          <FormControl>
+                            <Input 
+                              placeholder="e.g., AI coach and Toastmasters mentor"
+                              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
+                              {...field} 
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    
+                    <FormField
+                      control={form.control}
+                      name="background"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-sm font-medium text-gray-700">
+                            Background & Context
+                          </FormLabel>
+                          <FormControl>
+                            <Textarea 
+                              rows={3}
+                              placeholder="e.g., Started in web hosting, evolved into helping non-tech people build AI tools"
+                              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors resize-none"
+                              {...field} 
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                </div>
+
+                {/* What Section */}
+                <div className="border-l-4 border-secondary-500 pl-6">
+                  <div className="flex items-center space-x-2 mb-4">
+                    <Briefcase className="text-secondary-500" size={18} />
+                    <h3 className="text-lg font-semibold text-gray-900">WHAT you do</h3>
+                  </div>
+                  
+                  <FormField
+                    control={form.control}
+                    name="whatYouDo"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-sm font-medium text-gray-700">
+                          What You Do & Who You Help <span className="text-error-500">*</span>
+                        </FormLabel>
+                        <FormControl>
+                          <Textarea 
+                            rows={4}
+                            placeholder="e.g., I help teams build slide generators and content tools using AI prompts. I empower others to use AI without needing to code."
+                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors resize-none"
+                            {...field} 
+                          />
+                        </FormControl>
+                        <FormDescription className="text-sm text-gray-500">
+                          Focus on outcomes and impact, not just roles
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                {/* Why Section */}
+                <div className="border-l-4 border-warning-500 pl-6">
+                  <div className="flex items-center space-x-2 mb-4">
+                    <Flame className="text-warning-500" size={18} />
+                    <h3 className="text-lg font-semibold text-gray-900">WHY you do it</h3>
+                  </div>
+                  
+                  <FormField
+                    control={form.control}
+                    name="motivation"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-sm font-medium text-gray-700">
+                          Your Motivation & Deeper Purpose <span className="text-error-500">*</span>
+                        </FormLabel>
+                        <FormControl>
+                          <Textarea 
+                            rows={4}
+                            placeholder="e.g., I wanted to help people drive, not just build roads. That's why I teach others how to build with AI."
+                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors resize-none"
+                            {...field} 
+                          />
+                        </FormControl>
+                        <FormDescription className="text-sm text-gray-500">
+                          Share a personal story or belief that fuels your work
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                {/* Form Actions */}
+                <div className="flex flex-col sm:flex-row gap-4 pt-6 border-t border-gray-200">
+                  <Button 
+                    type="submit"
+                    disabled={generateSpeechMutation.isPending}
+                    className="flex-1 bg-primary-500 text-white px-6 py-3 rounded-lg font-medium hover:bg-primary-600 focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-colors flex items-center justify-center space-x-2"
+                  >
+                    <Wand2 size={16} />
+                    <span>Generate My Introduction</span>
+                  </Button>
+                  <Button 
+                    type="button"
+                    variant="outline"
+                    onClick={clearForm}
+                    className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors flex items-center justify-center space-x-2"
+                  >
+                    <RotateCcw size={16} />
+                    <span>Clear Form</span>
+                  </Button>
+                </div>
+              </form>
+            </Form>
+          </CardContent>
+        </Card>
+      )}
+    </div>
+  );
+}
