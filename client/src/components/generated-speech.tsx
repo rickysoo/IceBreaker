@@ -42,11 +42,11 @@ export default function GeneratedSpeech({ speech, onRegenerate }: GeneratedSpeec
     <Card className="mt-6">
       <CardContent className="p-6">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-lg font-semibold text-gray-900">Your Generated Introduction</h2>
+          <h2 className="text-lg font-semibold text-gray-900">Your Generated Speech</h2>
           <div className="flex items-center space-x-2">
             <span className="px-3 py-1 bg-success-100 text-success-800 text-sm rounded-full font-medium">
               <CheckCircle className="inline mr-1" size={14} />
-              Generated
+              Ready to Present
             </span>
           </div>
         </div>

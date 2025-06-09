@@ -202,7 +202,8 @@ export default function SpeechForm({ onSpeechGenerated, onStartGeneration, isLoa
                               rows={3}
                               placeholder="e.g., Started in web hosting, evolved into helping non-tech people build AI tools"
                               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors resize-none"
-                              {...field} 
+                              {...field}
+                              value={field.value ?? ""}
                             />
                           </FormControl>
                           <FormMessage />
@@ -284,7 +285,7 @@ export default function SpeechForm({ onSpeechGenerated, onStartGeneration, isLoa
                     className="flex-1 bg-primary-500 text-white px-6 py-3 rounded-lg font-medium hover:bg-primary-600 focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-colors flex items-center justify-center space-x-2"
                   >
                     <Wand2 size={16} />
-                    <span>Generate My Introduction</span>
+                    <span>Generate My Speech</span>
                   </Button>
                   <Button 
                     type="button"

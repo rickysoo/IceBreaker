@@ -1,60 +1,116 @@
-import { User, Briefcase, Flame, Lightbulb } from "lucide-react";
+import { User, Briefcase, Flame, Lightbulb, Play, BookOpen } from "lucide-react";
 
 export default function FrameworkGuide() {
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-200 sticky top-8">
-      <div className="p-6">
-        <h2 className="text-lg font-semibold text-gray-900 mb-6">The Who–What–Why Framework</h2>
-        
-        <div className="space-y-6">
-          {/* WHO Section */}
-          <div className="border-l-4 border-primary-500 pl-4">
-            <div className="flex items-center space-x-2 mb-2">
-              <User className="text-primary-500" size={16} />
-              <h3 className="font-semibold text-gray-900">WHO you are</h3>
+    <div className="space-y-8">
+      {/* Main Framework Card */}
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200">
+        <div className="p-8">
+          <div className="text-center mb-8">
+            <div className="w-16 h-16 bg-primary-500 rounded-full flex items-center justify-center mx-auto mb-4">
+              <BookOpen className="text-white" size={24} />
             </div>
-            <p className="text-sm text-gray-600 mb-3">Give people a quick, relatable sense of who you are.</p>
-            <ul className="text-xs text-gray-500 space-y-1">
-              <li>• Start with a clear identity</li>
-              <li>• Add meaningful context</li>
-              <li>• Connect with your audience</li>
-            </ul>
+            <h1 className="text-2xl font-bold text-gray-900 mb-2">The Who–What–Why Framework</h1>
+            <p className="text-gray-600">A proven structure for crafting compelling self-introductions that connect with your audience</p>
           </div>
-
-          {/* WHAT Section */}
-          <div className="border-l-4 border-secondary-500 pl-4">
-            <div className="flex items-center space-x-2 mb-2">
-              <Briefcase className="text-secondary-500" size={16} />
-              <h3 className="font-semibold text-gray-900">WHAT you do</h3>
+          
+          <div className="space-y-8">
+            {/* WHO Section */}
+            <div className="border-l-4 border-primary-500 pl-6">
+              <div className="flex items-center space-x-3 mb-4">
+                <div className="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center">
+                  <User className="text-primary-600" size={20} />
+                </div>
+                <h2 className="text-xl font-bold text-gray-900">WHO you are</h2>
+              </div>
+              <p className="text-gray-700 mb-4 text-lg">Give people a quick, relatable sense of who you are.</p>
+              <div className="bg-primary-50 rounded-lg p-4">
+                <ul className="text-sm text-gray-700 space-y-2">
+                  <li className="flex items-start space-x-2">
+                    <span className="text-primary-600 font-bold">1.</span>
+                    <span><strong>Start with a clear identity</strong> – Your name plus a sharp, relevant role or label (e.g. "I'm Ricky, an AI coach and Toastmasters mentor")</span>
+                  </li>
+                  <li className="flex items-start space-x-2">
+                    <span className="text-primary-600 font-bold">2.</span>
+                    <span><strong>Add meaningful context</strong> – Share your background, evolution, or community ("I started in web hosting, now I help non-tech people build AI tools")</span>
+                  </li>
+                  <li className="flex items-start space-x-2">
+                    <span className="text-primary-600 font-bold">3.</span>
+                    <span><strong>Connect with your audience</strong> – Adapt your intro to resonate with the setting (e.g. "I'm a fellow learner" vs. "I help founders")</span>
+                  </li>
+                </ul>
+              </div>
             </div>
-            <p className="text-sm text-gray-600 mb-3">Explain your current focus in a way that highlights value.</p>
-            <ul className="text-xs text-gray-500 space-y-1">
-              <li>• Describe who you help and how</li>
-              <li>• Use simple, specific language</li>
-              <li>• Show results, not just roles</li>
-            </ul>
-          </div>
 
-          {/* WHY Section */}
-          <div className="border-l-4 border-warning-500 pl-4">
-            <div className="flex items-center space-x-2 mb-2">
-              <Flame className="text-warning-500" size={16} />
-              <h3 className="font-semibold text-gray-900">WHY you do it</h3>
+            {/* WHAT Section */}
+            <div className="border-l-4 border-secondary-500 pl-6">
+              <div className="flex items-center space-x-3 mb-4">
+                <div className="w-10 h-10 bg-secondary-50 rounded-full flex items-center justify-center">
+                  <Briefcase className="text-secondary-600" size={20} />
+                </div>
+                <h2 className="text-xl font-bold text-gray-900">WHAT you do</h2>
+              </div>
+              <p className="text-gray-700 mb-4 text-lg">Explain your current focus in a way that highlights value.</p>
+              <div className="bg-secondary-50 rounded-lg p-4">
+                <ul className="text-sm text-gray-700 space-y-2">
+                  <li className="flex items-start space-x-2">
+                    <span className="text-secondary-600 font-bold">1.</span>
+                    <span><strong>Describe who you help and how</strong> – Frame your work around solving a problem or enabling growth</span>
+                  </li>
+                  <li className="flex items-start space-x-2">
+                    <span className="text-secondary-600 font-bold">2.</span>
+                    <span><strong>Use simple, specific language</strong> – Avoid jargon; include one clear example (e.g. "I help teams build slide generators using AI prompts")</span>
+                  </li>
+                  <li className="flex items-start space-x-2">
+                    <span className="text-secondary-600 font-bold">3.</span>
+                    <span><strong>Show results, not just roles</strong> – Focus on outcomes or impact ("I empower others to use AI without needing to code")</span>
+                  </li>
+                </ul>
+              </div>
             </div>
-            <p className="text-sm text-gray-600 mb-3">Reveal your deeper motivation to build trust and meaning.</p>
-            <ul className="text-xs text-gray-500 space-y-1">
-              <li>• Share a belief or turning point</li>
-              <li>• Make it relatable and emotional</li>
-              <li>• Tie your 'why' to your 'what'</li>
-            </ul>
+
+            {/* WHY Section */}
+            <div className="border-l-4 border-warning-500 pl-6">
+              <div className="flex items-center space-x-3 mb-4">
+                <div className="w-10 h-10 bg-warning-50 rounded-full flex items-center justify-center">
+                  <Flame className="text-warning-600" size={20} />
+                </div>
+                <h2 className="text-xl font-bold text-gray-900">WHY you do it</h2>
+              </div>
+              <p className="text-gray-700 mb-4 text-lg">Reveal your deeper motivation to build trust and meaning.</p>
+              <div className="bg-warning-50 rounded-lg p-4">
+                <ul className="text-sm text-gray-700 space-y-2">
+                  <li className="flex items-start space-x-2">
+                    <span className="text-warning-600 font-bold">1.</span>
+                    <span><strong>Share a belief or turning point</strong> – Start with a personal story, insight, or mission that fuels your work</span>
+                  </li>
+                  <li className="flex items-start space-x-2">
+                    <span className="text-warning-600 font-bold">2.</span>
+                    <span><strong>Make it relatable and emotional</strong> – Help people feel your passion or transformation (e.g. "I wanted to help people drive, not just build roads")</span>
+                  </li>
+                  <li className="flex items-start space-x-2">
+                    <span className="text-warning-600 font-bold">3.</span>
+                    <span><strong>Tie your 'why' to your 'what'</strong> – Let your motivation explain the work you do today ("That's why I teach others how to build with AI")</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
+      </div>
 
-        <div className="mt-6 p-4 bg-primary-50 rounded-lg">
-          <p className="text-sm text-primary-700">
-            <Lightbulb className="inline mr-2" size={14} />
-            Your AI-generated speech will follow this proven framework to create an engaging 300-word introduction.
-          </p>
+      {/* Call to Action Card */}
+      <div className="bg-gradient-to-r from-primary-500 to-secondary-500 rounded-xl shadow-sm text-white">
+        <div className="p-6">
+          <div className="flex items-center space-x-4">
+            <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
+              <Play className="text-white" size={20} />
+            </div>
+            <div className="flex-1">
+              <h3 className="text-lg font-semibold mb-1">Ready to Create Your Speech?</h3>
+              <p className="text-white/90 text-sm">Head to the Speech tab to input your information and generate a personalized 300-word introduction that follows this proven framework.</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>

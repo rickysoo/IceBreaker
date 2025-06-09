@@ -19,7 +19,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const speechRequest = await storage.createSpeechRequest(validatedData);
       
       // Generate speech using OpenAI
-      const prompt = `Create a compelling 300-word self-introduction speech using the Who-What-Why framework based on the following information:
+      const prompt = `Create a compelling 300-word self-introduction SPEECH using the Who-What-Why framework based on the following information:
 
 Name: ${validatedData.name}
 Identity/Role: ${validatedData.identity}
@@ -27,16 +27,27 @@ Background: ${validatedData.background || 'Not provided'}
 What they do: ${validatedData.whatYouDo}
 Motivation/Why: ${validatedData.motivation}
 
+CRITICAL: This is a SPEECH to be SPOKEN out loud, not an essay to be read. Make it sound natural when spoken aloud.
+
+Speech Requirements:
+- Use conversational language with natural speech patterns
+- Include pauses, transitions, and speaking rhythms (use punctuation to indicate)
+- Use shorter sentences that are easy to speak
+- Include contractions and casual language where appropriate
+- Make it flow naturally when read aloud
+- Use "you" to directly address the audience
+- Include natural speaking connectors like "Now," "So," "And here's the thing..."
+
 Framework guidelines:
 - WHO: Start with clear identity, add meaningful context, connect with audience
-- WHAT: Describe who they help and how, use simple specific language, show results not just roles
+- WHAT: Describe who they help and how, use simple specific language, show results not just roles  
 - WHY: Share belief or turning point, make it relatable and emotional, tie why to what
 
-The speech should be exactly around 300 words, engaging, and follow the Who-What-Why structure naturally. Make it sound conversational and authentic.
+The speech should be exactly around 300 words, engaging, and follow the Who-What-Why structure naturally. Write it as if the person is speaking directly to a live audience.
 
 Please respond with JSON in this exact format:
 {
-  "speech": "The complete 300-word speech text",
+  "speech": "The complete 300-word speech text optimized for speaking",
   "wordCount": actual_word_count_number,
   "readTime": estimated_read_time_in_minutes
 }`;
