@@ -1,6 +1,10 @@
 import { User, Briefcase, Flame, Lightbulb, Play, BookOpen } from "lucide-react";
 
-export default function FrameworkGuide() {
+interface FrameworkGuideProps {
+  onSwitchToSpeech?: () => void;
+}
+
+export default function FrameworkGuide({ onSwitchToSpeech }: FrameworkGuideProps) {
   return (
     <div className="space-y-8">
       {/* Main Framework Card */}
@@ -100,15 +104,21 @@ export default function FrameworkGuide() {
       </div>
 
       {/* Call to Action Card */}
-      <div className="bg-gradient-to-r from-primary-500 to-secondary-500 rounded-xl shadow-sm text-white">
+      <div className="bg-gradient-to-r from-primary-500 to-secondary-500 rounded-xl shadow-lg text-white">
         <div className="p-6">
           <div className="flex items-center space-x-4">
             <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
               <Play className="text-white" size={20} />
             </div>
             <div className="flex-1">
-              <h3 className="text-lg font-semibold mb-1">Ready to Create Your Speech?</h3>
-              <p className="text-white/90 text-sm">Head to the Speech tab to input your information and generate a personalized 300-word introduction that follows this proven framework.</p>
+              <h3 className="text-lg font-semibold mb-2">Ready to Create Your Speech?</h3>
+              <p className="text-white/90 text-sm mb-4">Now that you understand the framework, let's create your personalized 300-word introduction speech!</p>
+              <button 
+                onClick={onSwitchToSpeech}
+                className="bg-white text-primary-600 px-6 py-2 rounded-lg font-semibold hover:bg-white/90 transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-105"
+              >
+                Start Creating →
+              </button>
             </div>
           </div>
         </div>

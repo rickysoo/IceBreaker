@@ -33,7 +33,7 @@ export default function Home() {
   };
 
   return (
-    <div className="bg-gradient-to-br from-purple-50 via-blue-50 to-teal-50 min-h-screen">
+    <div className="bg-gradient-to-br from-pink-100 via-cyan-100 to-yellow-100 min-h-screen">
       {/* Header */}
       <header className="bg-white shadow-sm border-b border-gray-200">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -55,16 +55,26 @@ export default function Home() {
 
       <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-2 mb-8">
-            <TabsTrigger value="introduction" className="text-sm font-medium">Introduction</TabsTrigger>
-            <TabsTrigger value="speech" className="text-sm font-medium">Speech</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-2 mb-8 p-2 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-xl shadow-lg">
+            <TabsTrigger 
+              value="introduction" 
+              className="text-sm font-semibold py-3 px-6 rounded-lg transition-all duration-300 data-[state=active]:bg-white data-[state=active]:text-primary-600 data-[state=active]:shadow-md text-white hover:bg-white/20"
+            >
+              Framework Guide
+            </TabsTrigger>
+            <TabsTrigger 
+              value="speech" 
+              className="text-sm font-semibold py-3 px-6 rounded-lg transition-all duration-300 data-[state=active]:bg-white data-[state=active]:text-secondary-600 data-[state=active]:shadow-md text-white hover:bg-white/20"
+            >
+              Create Speech
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="introduction" className="mt-0">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
               {/* Framework Guide */}
               <div className="lg:col-span-12">
-                <FrameworkGuide />
+                <FrameworkGuide onSwitchToSpeech={() => setActiveTab("speech")} />
               </div>
             </div>
           </TabsContent>
