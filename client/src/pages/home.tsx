@@ -44,7 +44,7 @@ export default function Home() {
               </div>
               <div>
                 <h1 className="text-xl font-bold text-gray-900">IceBreaker</h1>
-                <p className="text-sm text-gray-500">AI-Powered Introduction Speech Generator</p>
+                <p className="text-sm text-gray-500">Impactful Self-Introduction Speech</p>
               </div>
             </div>
             <div className="flex items-center space-x-4">
