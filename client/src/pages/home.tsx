@@ -61,13 +61,13 @@ export default function Home() {
                 value="introduction" 
                 className="text-sm font-semibold py-3 px-6 bg-gray-200 border border-gray-300 border-b-0 rounded-t-lg mr-1 relative data-[state=active]:bg-white data-[state=active]:text-gray-900 data-[state=active]:border-gray-300 data-[state=active]:border-b-white data-[state=active]:z-10 data-[state=active]:mb-[-1px] data-[state=inactive]:bg-gray-200 data-[state=inactive]:text-gray-600 transition-all duration-200 hover:bg-gray-50 hover:text-gray-800"
               >
-                Framework Guide
+                Guide
               </TabsTrigger>
               <TabsTrigger 
                 value="speech" 
                 className="text-sm font-semibold py-3 px-6 bg-gray-200 border border-gray-300 border-b-0 rounded-t-lg relative data-[state=active]:bg-white data-[state=active]:text-gray-900 data-[state=active]:border-gray-300 data-[state=active]:border-b-white data-[state=active]:z-10 data-[state=active]:mb-[-1px] data-[state=inactive]:bg-gray-200 data-[state=inactive]:text-gray-600 transition-all duration-200 hover:bg-gray-50 hover:text-gray-800"
               >
-                Create Speech
+                Speech
               </TabsTrigger>
             </TabsList>
           </div>
