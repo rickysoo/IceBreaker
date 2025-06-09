@@ -153,7 +153,7 @@ export default function SpeechForm({ onSpeechGenerated, onStartGeneration, isLoa
                           {...field} 
                         />
                       </FormControl>
-                      <FormDescription className="text-sm text-gray-500">
+                      <FormDescription className="text-sm text-gray-700 font-medium">
                         This will be used to start your introduction
                       </FormDescription>
                       <FormMessage />
@@ -217,7 +217,7 @@ export default function SpeechForm({ onSpeechGenerated, onStartGeneration, isLoa
                 <div className="border-l-4 border-secondary-500 pl-6">
                   <div className="flex items-center space-x-2 mb-4">
                     <Briefcase className="text-secondary-500" size={18} />
-                    <h3 className="text-lg font-semibold text-gray-900">WHAT you do</h3>
+                    <h3 className="text-lg font-bold text-gray-900 drop-shadow-sm">WHAT you do</h3>
                   </div>
                   
                   <FormField
@@ -225,7 +225,7 @@ export default function SpeechForm({ onSpeechGenerated, onStartGeneration, isLoa
                     name="whatYouDo"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-sm font-medium text-gray-700">
+                        <FormLabel className="text-sm font-bold text-gray-900 drop-shadow-sm">
                           What You Do & Who You Help <span className="text-error-500">*</span>
                         </FormLabel>
                         <FormControl>
@@ -236,7 +236,7 @@ export default function SpeechForm({ onSpeechGenerated, onStartGeneration, isLoa
                             {...field} 
                           />
                         </FormControl>
-                        <FormDescription className="text-sm text-gray-500">
+                        <FormDescription className="text-sm text-gray-700 font-medium">
                           Focus on outcomes and impact, not just roles
                         </FormDescription>
                         <FormMessage />
@@ -249,7 +249,7 @@ export default function SpeechForm({ onSpeechGenerated, onStartGeneration, isLoa
                 <div className="border-l-4 border-warning-500 pl-6">
                   <div className="flex items-center space-x-2 mb-4">
                     <Flame className="text-warning-500" size={18} />
-                    <h3 className="text-lg font-semibold text-gray-900">WHY you do it</h3>
+                    <h3 className="text-lg font-bold text-gray-900 drop-shadow-sm">WHY you do it</h3>
                   </div>
                   
                   <FormField
@@ -257,7 +257,7 @@ export default function SpeechForm({ onSpeechGenerated, onStartGeneration, isLoa
                     name="motivation"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-sm font-medium text-gray-700">
+                        <FormLabel className="text-sm font-bold text-gray-900 drop-shadow-sm">
                           Your Motivation & Deeper Purpose <span className="text-error-500">*</span>
                         </FormLabel>
                         <FormControl>
@@ -268,7 +268,7 @@ export default function SpeechForm({ onSpeechGenerated, onStartGeneration, isLoa
                             {...field} 
                           />
                         </FormControl>
-                        <FormDescription className="text-sm text-gray-500">
+                        <FormDescription className="text-sm text-gray-700 font-medium">
                           Share a personal story or belief that fuels your work
                         </FormDescription>
                         <FormMessage />
