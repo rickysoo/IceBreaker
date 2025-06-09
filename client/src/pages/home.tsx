@@ -8,11 +8,13 @@ import type { GenerateSpeechResponse } from "@/lib/openai";
 
 export default function Home() {
   const [generatedSpeech, setGeneratedSpeech] = useState<GenerateSpeechResponse | null>(null);
+  const [formData, setFormData] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("introduction");
 
-  const handleSpeechGenerated = (speech: GenerateSpeechResponse) => {
+  const handleSpeechGenerated = (speech: GenerateSpeechResponse, data: any) => {
     setGeneratedSpeech(speech);
+    setFormData(data);
     setIsLoading(false);
     setActiveTab("speech");
   };
@@ -22,8 +24,12 @@ export default function Home() {
     setGeneratedSpeech(null);
   };
 
-  const handleRegenerate = () => {
-    setGeneratedSpeech(null);
+  const handleRegenerate = (newSpeech?: GenerateSpeechResponse) => {
+    if (newSpeech) {
+      setGeneratedSpeech(newSpeech);
+    } else {
+      setGeneratedSpeech(null);
+    }
   };
 
   return (
@@ -77,7 +83,7 @@ export default function Home() {
                   <GeneratedSpeech 
                     speech={generatedSpeech}
                     onRegenerate={handleRegenerate}
-                    formData={null}
+                    formData={formData}
                   />
                 )}
               </div>

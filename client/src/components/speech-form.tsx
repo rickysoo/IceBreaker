@@ -16,7 +16,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 
 interface SpeechFormProps {
-  onSpeechGenerated: (speech: GenerateSpeechResponse) => void;
+  onSpeechGenerated: (speech: GenerateSpeechResponse, formData: InsertSpeechRequest) => void;
   onStartGeneration: () => void;
   isLoading: boolean;
 }
@@ -41,8 +41,8 @@ export default function SpeechForm({ onSpeechGenerated, onStartGeneration, isLoa
       const response = await apiRequest("POST", "/api/speech/generate", data);
       return response.json();
     },
-    onSuccess: (data) => {
-      onSpeechGenerated(data);
+    onSuccess: (data, variables) => {
+      onSpeechGenerated(data, variables);
       toast({
         title: "Success!",
         description: "Your introduction speech has been generated.",

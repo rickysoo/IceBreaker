@@ -9,7 +9,7 @@ import type { GenerateSpeechResponse } from "@/lib/openai";
 
 interface GeneratedSpeechProps {
   speech: GenerateSpeechResponse;
-  onRegenerate: () => void;
+  onRegenerate: (newSpeech?: GenerateSpeechResponse) => void;
   formData?: any;
 }
 
@@ -23,7 +23,10 @@ export default function GeneratedSpeech({ speech, onRegenerate, formData }: Gene
       return response.json();
     },
     onSuccess: (data) => {
-      onRegenerate();
+      // Update the parent with the new speech data
+      if (onRegenerate) {
+        onRegenerate(data);
+      }
       toast({
         title: "Regenerated!",
         description: "Your speech has been regenerated with fresh content.",
