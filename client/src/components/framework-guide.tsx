@@ -22,11 +22,11 @@ export default function FrameworkGuide({ onSwitchToSpeech }: FrameworkGuideProps
                 <div className="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center">
                   <User className="text-primary-600" size={20} />
                 </div>
-                <h2 className="text-xl font-bold text-gray-900">WHO you are</h2>
+                <h2 className="text-xl font-bold text-gray-900 drop-shadow-sm">WHO you are</h2>
               </div>
-              <p className="text-gray-700 mb-4 text-lg">Give people a quick, relatable sense of who you are.</p>
+              <p className="text-gray-800 mb-4 text-lg font-medium">Give people a quick, relatable sense of who you are.</p>
               <div className="bg-primary-50 rounded-lg p-4">
-                <ul className="text-sm text-gray-700 space-y-2">
+                <ul className="text-sm text-gray-800 space-y-2 font-medium">
                   <li className="flex items-start space-x-2">
                     <span className="text-primary-600 font-bold">1.</span>
                     <span><strong>Start with a clear identity</strong> – Your name plus a sharp, relevant role or label (e.g. "I'm Sarah, a digital marketing strategist and workshop facilitator")</span>
@@ -49,11 +49,11 @@ export default function FrameworkGuide({ onSwitchToSpeech }: FrameworkGuideProps
                 <div className="w-10 h-10 bg-secondary-50 rounded-full flex items-center justify-center">
                   <Briefcase className="text-secondary-600" size={20} />
                 </div>
-                <h2 className="text-xl font-bold text-gray-900">WHAT you do</h2>
+                <h2 className="text-xl font-bold text-gray-900 drop-shadow-sm">WHAT you do</h2>
               </div>
-              <p className="text-gray-700 mb-4 text-lg">Explain your current focus in a way that highlights value.</p>
+              <p className="text-gray-800 mb-4 text-lg font-medium">Explain your current focus in a way that highlights value.</p>
               <div className="bg-secondary-50 rounded-lg p-4">
-                <ul className="text-sm text-gray-700 space-y-2">
+                <ul className="text-sm text-gray-800 space-y-2 font-medium">
                   <li className="flex items-start space-x-2">
                     <span className="text-secondary-600 font-bold">1.</span>
                     <span><strong>Describe who you help and how</strong> – Frame your work around solving a problem or enabling growth</span>
@@ -76,11 +76,11 @@ export default function FrameworkGuide({ onSwitchToSpeech }: FrameworkGuideProps
                 <div className="w-10 h-10 bg-warning-50 rounded-full flex items-center justify-center">
                   <Flame className="text-warning-600" size={20} />
                 </div>
-                <h2 className="text-xl font-bold text-gray-900">WHY you do it</h2>
+                <h2 className="text-xl font-bold text-gray-900 drop-shadow-sm">WHY you do it</h2>
               </div>
-              <p className="text-gray-700 mb-4 text-lg">Reveal your deeper motivation to build trust and meaning.</p>
+              <p className="text-gray-800 mb-4 text-lg font-medium">Reveal your deeper motivation to build trust and meaning.</p>
               <div className="bg-warning-50 rounded-lg p-4">
-                <ul className="text-sm text-gray-700 space-y-2">
+                <ul className="text-sm text-gray-800 space-y-2 font-medium">
                   <li className="flex items-start space-x-2">
                     <span className="text-warning-600 font-bold">1.</span>
                     <span><strong>Share a belief or turning point</strong> – Start with a personal story, insight, or mission that fuels your work</span>

@@ -79,8 +79,8 @@ export default function SpeechForm({ onSpeechGenerated, onStartGeneration, isLoa
       <Card>
         <CardContent className="p-6">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-gray-900">Create Your Introduction</h2>
-            <div className="flex items-center space-x-2 text-sm text-gray-500">
+            <h2 className="text-lg font-semibold text-gray-900 drop-shadow-sm">Create Your Introduction</h2>
+            <div className="flex items-center space-x-2 text-sm text-gray-700 font-medium">
               <span>Step {isLoading ? "2" : "1"} of 2</span>
             </div>
           </div>
