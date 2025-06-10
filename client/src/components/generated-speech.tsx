@@ -20,9 +20,9 @@ function SpeechAnalysisContent({ speech }: { speech: string }) {
     speakerName = nameIsMatch[1];
   }
   
-  // Look for "I'm [Name]" patterns
+  // Look for "I'm [Name]" patterns with broader matching
   if (!speakerName) {
-    const directNameMatch = cleanSpeech.match(/(?:Hello|Hi)[^.!?]*I'm\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)/i);
+    const directNameMatch = cleanSpeech.match(/I'm\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)/i);
     if (directNameMatch) {
       speakerName = directNameMatch[1];
     }
@@ -72,10 +72,26 @@ function SpeechAnalysisContent({ speech }: { speech: string }) {
   // Extract work description - what they do (more comprehensive)
   let workDescription = null;
   
+  // Look for "I work with" statements
+  const workWithMatch = cleanSpeech.match(/I work with\s+([^.!?]+?)(?:\s+(?:to|by|through)|[.!?])/i);
+  if (workWithMatch) {
+    workDescription = workWithMatch[1].trim();
+  }
+  
   // Look for explicit help statements
-  const helpMatch = cleanSpeech.match(/(?:I help|I assist|I support)\s+([^.!?]+?)(?:\s+(?:by|through|to|with)|[.!?])/i);
-  if (helpMatch) {
-    workDescription = helpMatch[1].trim();
+  if (!workDescription) {
+    const helpMatch = cleanSpeech.match(/(?:I help|I assist|I support)\s+([^.!?]+?)(?:\s+(?:by|through|to|with)|[.!?])/i);
+    if (helpMatch) {
+      workDescription = helpMatch[1].trim();
+    }
+  }
+  
+  // Look for "we set up" or "we create" activities
+  if (!workDescription) {
+    const activityMatch = cleanSpeech.match(/(?:We set up|We create|We organize)\s+([^.!?]+?)(?:\s+(?:so|to)|[.!?])/i);
+    if (activityMatch) {
+      workDescription = activityMatch[1].trim();
+    }
   }
   
   // Look for focus/specialization
@@ -83,14 +99,6 @@ function SpeechAnalysisContent({ speech }: { speech: string }) {
     const focusMatch = cleanSpeech.match(/(?:My focus|I focus on|I specialize in)\s+([^.!?]+?)(?:[.!?])/i);
     if (focusMatch) {
       workDescription = focusMatch[1].trim();
-    }
-  }
-  
-  // Look for teaching/guiding
-  if (!workDescription) {
-    const teachMatch = cleanSpeech.match(/(?:I teach|I guide|I mentor|I coach)\s+([^.!?]+?)(?:\s+(?:by|through|to|with)|[.!?])/i);
-    if (teachMatch) {
-      workDescription = teachMatch[1].trim();
     }
   }
   
