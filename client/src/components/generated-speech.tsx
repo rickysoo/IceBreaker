@@ -37,16 +37,27 @@ function SpeechAnalysisContent({ speech }: { speech: string }) {
   }
   
   // Extract role/identity - look for profession or role
-  const rolePatterns = [
-    /(?:I'm|I am)\s+(?:a|an)\s+([^.!?,]+?)(?:\s+(?:who|that|and)|[.!?,])/i,
-    /(?:I work as|I serve as|I am)\s+(?:a|an)?\s*([^.!?,]+?)(?:\s+(?:who|that|and)|[.!?,])/i
-  ];
   let role = null;
-  for (const pattern of rolePatterns) {
-    const match = cleanSpeech.match(pattern);
-    if (match) {
-      role = match[1].trim();
-      break;
+  
+  // Look for "I'm [Name], a [role]" patterns
+  const nameRoleMatch = cleanSpeech.match(/I'm\s+[A-Z][a-z]+(?:\s+[A-Z][a-z]+)?,\s+(?:a|an)\s+([^.!?,]+?)(?:\s+(?:with|who|that)|[.!?,])/i);
+  if (nameRoleMatch) {
+    role = nameRoleMatch[1].trim();
+  }
+  
+  // Look for standard "I'm a [role]" patterns
+  if (!role) {
+    const standardRoleMatch = cleanSpeech.match(/(?:I'm|I am)\s+(?:a|an)\s+([^.!?,]+?)(?:\s+(?:who|that|and|with)|[.!?,])/i);
+    if (standardRoleMatch) {
+      role = standardRoleMatch[1].trim();
+    }
+  }
+  
+  // Look for "I work as" patterns
+  if (!role) {
+    const workAsMatch = cleanSpeech.match(/(?:I work as|I serve as)\s+(?:a|an)?\s*([^.!?,]+?)(?:\s+(?:who|that|and)|[.!?,])/i);
+    if (workAsMatch) {
+      role = workAsMatch[1].trim();
     }
   }
   
@@ -128,29 +139,41 @@ function SpeechAnalysisContent({ speech }: { speech: string }) {
       </p>
       
       <div className="mb-4">
-        <strong>WHO Framework Component:</strong> {speakerName ? `${speakerName} establishes personal identity immediately, creating trust and memorability.` : 'The speech opens without personal identification, missing an opportunity to build immediate connection.'} 
-        {role ? ` The professional identity as ${role} provides context and credibility, completing the "who am I" foundation.` : ' Adding a clear professional role would strengthen audience understanding of expertise and background.'}
-        {speakerName && role ? ' This strong WHO foundation sets up the framework effectively.' : ''}
+        <strong>WHO Framework Component:</strong> {speakerName ? `${speakerName} establishes personal identity immediately, creating trust and memorability.` : 'The speaker introduces themselves without stating their name explicitly.'} 
+        {role ? ` The professional identity as "${role}" provides clear context and credibility, completing the "who am I" foundation.` : ' The speech includes professional context that helps establish credibility.'}
+        {speakerName && role ? ' This strong WHO foundation effectively sets up the framework.' : ' The WHO component establishes professional identity and background.'}
       </div>
       
       <div className="mb-4">
-        <strong>WHAT Framework Component:</strong> {workDescription ? `The speech effectively communicates the value provided: "${workDescription}." This clearly answers the "what do I do" question with specific, results-focused language that resonates with audiences.` : cleanSpeech.includes('help') || cleanSpeech.includes('teach') || cleanSpeech.includes('work') ? 'The speech mentions professional activities but could be more specific about the exact value provided to clients or students.' : 'The WHAT section needs development to help listeners understand the specific services, skills, or value provided.'} 
-        {workDescription ? ' The emphasis on helping others rather than listing credentials follows framework best practices for creating meaningful connections.' : cleanSpeech.includes('help') ? ' Consider strengthening this section by being more specific about outcomes achieved, such as "I help professionals reduce presentation anxiety by 80%" or "I guide students to achieve confident public speaking within 30 days."' : ' Adding concrete examples of value delivery would strengthen this framework component significantly.'}
+        <strong>WHAT Framework Component:</strong> {workDescription ? `The speech clearly communicates the value provided: "${workDescription}." This addresses the "what do I do" question with specific, audience-focused language.` : cleanSpeech.includes('help') || cleanSpeech.includes('create') || cleanSpeech.includes('build') || cleanSpeech.includes('work') ? 'The speech describes professional activities and the value provided to clients or customers.' : 'The WHAT section establishes the type of work and services provided.'} 
+        {workDescription ? ' The focus on helping others rather than just listing credentials follows framework best practices for audience engagement.' : ' The speech explains professional activities in terms of impact and outcomes.'}
       </div>
       
       <div className="mb-4">
-        <strong>WHY Framework Component:</strong> {motivation ? `The personal motivation shines through: "${motivation}." This emotional foundation reveals the deeper purpose driving the work, which is essential for authentic connection.` : cleanSpeech.includes('believe') || cleanSpeech.includes('passion') || cleanSpeech.includes('care') ? 'The speech hints at personal motivation but could express the "why" more explicitly to create stronger emotional resonance.' : 'The WHY component - the emotional core that makes speeches truly memorable - needs more development in this version.'} 
-        {motivation ? ' This authentic sharing of values transforms a professional introduction into a meaningful conversation starter.' : cleanSpeech.includes('story') || cleanSpeech.includes('experience') ? ' Consider connecting personal experiences more directly to current motivation, such as "My own struggle with confidence taught me how transformative good coaching can be."' : ' Adding genuine personal motivation like "I discovered my passion for teaching when I saw how one conversation changed a student\'s entire trajectory" would complete the framework powerfully.'}
+        <strong>WHY Framework Component:</strong> {motivation ? `The personal motivation comes through clearly: "${motivation}." This emotional foundation reveals the deeper purpose driving the work.` : cleanSpeech.includes('believe') || cleanSpeech.includes('passion') || cleanSpeech.includes('care') || cleanSpeech.includes('love') ? 'The speech expresses personal motivation and values that drive the professional work.' : 'The WHY component addresses the emotional reasons behind the professional choice.'} 
+        {motivation ? ' This authentic sharing of values creates meaningful connection with the audience.' : ' The speech includes personal elements that explain the motivation behind the work.'}
       </div>
       
       <div className="mb-0">
-        <strong>Framework Enhancement Suggestions:</strong> 
-        {sentences.length > 15 ? 'Consider shorter sentences for easier spoken delivery. ' : ''}
-        {!hasTransitions ? 'Add smooth transitions between framework sections like "What I do is..." followed by "The reason this matters to me is..." ' : 'The speech flows well with natural transitions between sections. '}
-        {wordCount > 320 ? 'Trim to under 300 words while preserving all three framework elements. ' : wordCount < 200 ? 'Consider expanding with more specific examples or outcomes to reach the ideal 250-300 word range. ' : 'The word count is well-optimized for speaking time. '}
-        {!speech.toLowerCase().includes('you') ? 'Include direct audience connection with "you" language to strengthen engagement. ' : 'Good use of audience connection throughout the speech. '}
-        {cleanSpeech.includes('example') || cleanSpeech.includes('story') || /\d+%/.test(cleanSpeech) ? 'Excellent use of concrete examples and measurable results - this strengthens credibility significantly. ' : 'Adding a specific success story with measurable outcomes would enhance credibility. '}
-        {cleanSpeech.includes('connect') || cleanSpeech.includes('hear') || cleanSpeech.includes('together') ? 'Strong closing that invites further conversation and connection.' : 'Consider ending with a conversation starter like "I\'d love to hear about your business challenges" to encourage networking.'}
+        <strong>Areas for Enhancement:</strong>
+        <div className="mt-2 space-y-1">
+          {!speakerName && <div>• Include your name in the introduction to create personal connection and memorability</div>}
+          {!role && <div>• Add a clear professional identity or role to establish credibility and context</div>}
+          {!workDescription && !cleanSpeech.includes('help') && !cleanSpeech.includes('create') && <div>• Describe specific value you provide to clients or customers</div>}
+          {!motivation && !cleanSpeech.includes('believe') && !cleanSpeech.includes('care') && <div>• Share personal motivation or "why" to create emotional connection</div>}
+          {sentences.length > 15 && <div>• Consider shorter sentences for easier spoken delivery</div>}
+          {wordCount > 320 && <div>• Trim content to under 300 words while preserving all framework elements</div>}
+          {wordCount < 200 && <div>• Expand with more specific examples to reach ideal 250-300 word range</div>}
+          {!cleanSpeech.includes('example') && !cleanSpeech.includes('story') && !/\d+%/.test(cleanSpeech) && <div>• Add a concrete success story with measurable outcomes to enhance credibility</div>}
+          {!cleanSpeech.includes('connect') && !cleanSpeech.includes('hear') && !cleanSpeech.includes('together') && <div>• End with a conversation starter to encourage networking</div>}
+          {!hasTransitions && <div>• Add smooth transitions between sections like "What I do is..." and "Here's why this matters..."</div>}
+        </div>
+        {(!speakerName && !role && !workDescription && !motivation) || 
+         (sentences.length <= 15 && wordCount >= 200 && wordCount <= 320 && 
+          (cleanSpeech.includes('example') || cleanSpeech.includes('story') || /\d+%/.test(cleanSpeech)) &&
+          (cleanSpeech.includes('connect') || cleanSpeech.includes('hear') || cleanSpeech.includes('together'))) ? 
+         <div className="mt-2 text-green-700 font-medium">This speech effectively implements the Who-What-Why framework with strong examples and engagement elements.</div> : 
+         ''}
       </div>
     </div>
   );
