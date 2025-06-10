@@ -39,32 +39,61 @@ function SpeechAnalysisContent({ speech }: { speech: string }) {
     }
   }
   
-  // Extract work description - what they do
-  const workPatterns = [
-    /(?:I help|I assist|I work with|I support|I teach|I guide)\s+([^.!?]+?)(?:\s+(?:by|through|to)|[.!?])/i,
-    /(?:I specialize in|I focus on|My work involves)\s+([^.!?]+?)(?:[.!?])/i
-  ];
+  // Extract work description - what they do (more comprehensive)
   let workDescription = null;
-  for (const pattern of workPatterns) {
-    const match = cleanSpeech.match(pattern);
-    if (match) {
-      workDescription = match[1].trim();
-      break;
+  
+  // Look for explicit help statements
+  const helpMatch = cleanSpeech.match(/(?:I help|I assist|I support)\s+([^.!?]+?)(?:\s+(?:by|through|to|with)|[.!?])/i);
+  if (helpMatch) {
+    workDescription = helpMatch[1].trim();
+  }
+  
+  // Look for focus/specialization
+  if (!workDescription) {
+    const focusMatch = cleanSpeech.match(/(?:My focus|I focus on|I specialize in)\s+([^.!?]+?)(?:[.!?])/i);
+    if (focusMatch) {
+      workDescription = focusMatch[1].trim();
     }
   }
   
-  // Extract motivation - why they do it
-  const motivationPatterns = [
-    /(?:because|why)\s+([^.!?]+)/i,
-    /(?:I believe|I'm passionate about|what drives me|I care about)\s+([^.!?]+)/i,
-    /(?:My passion|What motivates me)\s+(?:is|comes from)\s+([^.!?]+)/i
-  ];
+  // Look for teaching/guiding
+  if (!workDescription) {
+    const teachMatch = cleanSpeech.match(/(?:I teach|I guide|I mentor|I coach)\s+([^.!?]+?)(?:\s+(?:by|through|to|with)|[.!?])/i);
+    if (teachMatch) {
+      workDescription = teachMatch[1].trim();
+    }
+  }
+  
+  // Extract motivation - why they do it (more comprehensive)
   let motivation = null;
-  for (const pattern of motivationPatterns) {
-    const match = cleanSpeech.match(pattern);
-    if (match) {
-      motivation = match[1].trim();
-      break;
+  
+  // Look for belief statements
+  const beliefMatch = cleanSpeech.match(/(?:I believe|Well, I believe)\s+([^.!?]+)/i);
+  if (beliefMatch) {
+    motivation = beliefMatch[1].trim();
+  }
+  
+  // Look for care/passion statements
+  if (!motivation) {
+    const careMatch = cleanSpeech.match(/(?:I care about|I'm passionate about|what drives me|What motivates me)\s+([^.!?]+)/i);
+    if (careMatch) {
+      motivation = careMatch[1].trim();
+    }
+  }
+  
+  // Look for why explanations
+  if (!motivation) {
+    const whyMatch = cleanSpeech.match(/(?:why I|This is why|That's why)\s+([^.!?]+)/i);
+    if (whyMatch) {
+      motivation = whyMatch[1].trim();
+    }
+  }
+  
+  // Look for story-based motivations
+  if (!motivation) {
+    const storyMatch = cleanSpeech.match(/(?:So, I decided|This made me|I realized)\s+([^.!?]+)/i);
+    if (storyMatch) {
+      motivation = storyMatch[1].trim();
     }
   }
   
@@ -86,13 +115,13 @@ function SpeechAnalysisContent({ speech }: { speech: string }) {
       </div>
       
       <div className="mb-4">
-        <strong>WHAT Framework Component:</strong> {workDescription ? `The speech clearly explains the value provided: "${workDescription}." This addresses the critical "what do I do" question with specific, audience-focused language.` : 'The WHAT section needs development - listeners need to understand specific services, skills, or value provided.'} 
-        {workDescription ? ' By focusing on helping others rather than job titles, the speech follows framework best practices for audience engagement.' : ' Consider adding concrete examples like "I help restaurant owners reduce food waste by 30%" or "I teach public speaking skills to overcome presentation anxiety."'}
+        <strong>WHAT Framework Component:</strong> {workDescription ? `The speech effectively communicates the value provided: "${workDescription}." This clearly answers the "what do I do" question with specific, results-focused language that resonates with audiences.` : cleanSpeech.includes('help') || cleanSpeech.includes('teach') || cleanSpeech.includes('work') ? 'The speech mentions professional activities but could be more specific about the exact value provided to clients or students.' : 'The WHAT section needs development to help listeners understand the specific services, skills, or value provided.'} 
+        {workDescription ? ' The emphasis on helping others rather than listing credentials follows framework best practices for creating meaningful connections.' : cleanSpeech.includes('help') ? ' Consider strengthening this section by being more specific about outcomes achieved, such as "I help professionals reduce presentation anxiety by 80%" or "I guide students to achieve confident public speaking within 30 days."' : ' Adding concrete examples of value delivery would strengthen this framework component significantly.'}
       </div>
       
       <div className="mb-4">
-        <strong>WHY Framework Component:</strong> {motivation ? `The emotional driver comes through clearly: "${motivation}." This personal motivation completes the framework by revealing what truly matters beyond professional obligations.` : 'The WHY element - the emotional core that makes speeches memorable - is absent from this version.'} 
-        {motivation ? ' This authenticity creates the connection that transforms professional introductions into meaningful conversations.' : ' Adding genuine motivation like "I started this work after my own experience with workplace stress" or "Teaching became my passion when I saw how education changed my community" would complete the framework.'}
+        <strong>WHY Framework Component:</strong> {motivation ? `The personal motivation shines through: "${motivation}." This emotional foundation reveals the deeper purpose driving the work, which is essential for authentic connection.` : cleanSpeech.includes('believe') || cleanSpeech.includes('passion') || cleanSpeech.includes('care') ? 'The speech hints at personal motivation but could express the "why" more explicitly to create stronger emotional resonance.' : 'The WHY component - the emotional core that makes speeches truly memorable - needs more development in this version.'} 
+        {motivation ? ' This authentic sharing of values transforms a professional introduction into a meaningful conversation starter.' : cleanSpeech.includes('story') || cleanSpeech.includes('experience') ? ' Consider connecting personal experiences more directly to current motivation, such as "My own struggle with confidence taught me how transformative good coaching can be."' : ' Adding genuine personal motivation like "I discovered my passion for teaching when I saw how one conversation changed a student\'s entire trajectory" would complete the framework powerfully.'}
       </div>
       
       <div className="mb-0">
