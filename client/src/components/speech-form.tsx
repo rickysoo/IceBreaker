@@ -38,8 +38,8 @@ export default function SpeechForm({ onSpeechGenerated, onStartGeneration, isLoa
 
   const generateSpeechMutation = useMutation({
     mutationFn: async (data: InsertSpeechRequest): Promise<GenerateSpeechResponse> => {
-      const response = await apiRequest("POST", "/api/speech/generate", data);
-      return response.json();
+      const response = await apiRequest("/api/speech/generate", "POST", data);
+      return response;
     },
     onSuccess: (data, variables) => {
       onSpeechGenerated(data, variables);
