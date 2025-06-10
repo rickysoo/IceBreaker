@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Copy, RotateCcw, CheckCircle, AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -8,198 +8,65 @@ import { apiRequest } from "@/lib/queryClient";
 import type { GenerateSpeechResponse } from "@/lib/openai";
 
 function SpeechAnalysisContent({ speech }: { speech: string }) {
-  // Clean up the speech text
-  const cleanSpeech = speech.replace(/\s+/g, ' ').trim();
-  
-  // Extract speaker name with comprehensive patterns
-  let speakerName = null;
-  
-  // Look for "my name's [Name]" or "my name is [Name]"
-  const nameIsMatch = cleanSpeech.match(/my name(?:'s|'s| is)\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)/i);
-  if (nameIsMatch) {
-    speakerName = nameIsMatch[1];
-  }
-  
-  // Look for "I'm [Name]" patterns with broader matching
-  if (!speakerName) {
-    const directNameMatch = cleanSpeech.match(/I'm\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)/i);
-    if (directNameMatch) {
-      speakerName = directNameMatch[1];
+  const [analysis, setAnalysis] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const analyzeSpeech = useMutation({
+    mutationFn: async (speechText: string) => {
+      const response = await apiRequest("/api/speech/analyze", "POST", { speech: speechText });
+      return response.analysis;
+    },
+    onSuccess: (data) => {
+      setAnalysis(data);
+      setIsLoading(false);
+    },
+    onError: (error: any) => {
+      setError(error.message || 'Failed to analyze speech');
+      setIsLoading(false);
     }
-  }
-  
-  // Look for "My name is [Name]" patterns
-  if (!speakerName) {
-    const formalNameMatch = cleanSpeech.match(/My name is\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)/i);
-    if (formalNameMatch) {
-      speakerName = formalNameMatch[1];
-    }
-  }
-  
-  // Look for simple "I'm [Name]" at start
-  if (!speakerName) {
-    const simpleNameMatch = cleanSpeech.match(/^[^.!?]*I'm\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)/i);
-    if (simpleNameMatch) {
-      speakerName = simpleNameMatch[1];
-    }
-  }
-  
-  // Extract role/identity - look for profession or role
-  let role = null;
-  
-  // Look for "I'm [Name], a [role]" patterns
-  const nameRoleMatch = cleanSpeech.match(/I'm\s+[A-Z][a-z]+(?:\s+[A-Z][a-z]+)?,\s+(?:a|an)\s+([^.!?,]+?)(?:\s+(?:with|who|that)|[.!?,])/i);
-  if (nameRoleMatch) {
-    role = nameRoleMatch[1].trim();
-  }
-  
-  // Look for standard "I'm a [role]" patterns
-  if (!role) {
-    const standardRoleMatch = cleanSpeech.match(/(?:I'm|I am)\s+(?:a|an)\s+([^.!?,]+?)(?:\s+(?:who|that|and|with)|[.!?,])/i);
-    if (standardRoleMatch) {
-      role = standardRoleMatch[1].trim();
-    }
-  }
-  
-  // Look for "I work as" patterns
-  if (!role) {
-    const workAsMatch = cleanSpeech.match(/(?:I work as|I serve as)\s+(?:a|an)?\s*([^.!?,]+?)(?:\s+(?:who|that|and)|[.!?,])/i);
-    if (workAsMatch) {
-      role = workAsMatch[1].trim();
-    }
-  }
-  
-  // Extract work description - what they do (more comprehensive)
-  let workDescription = null;
-  
-  // Look for "I work with" statements
-  const workWithMatch = cleanSpeech.match(/I work with\s+([^.!?]+?)(?:\s+(?:to|by|through)|[.!?])/i);
-  if (workWithMatch) {
-    workDescription = workWithMatch[1].trim();
-  }
-  
-  // Look for explicit help statements
-  if (!workDescription) {
-    const helpMatch = cleanSpeech.match(/(?:I help|I assist|I support)\s+([^.!?]+?)(?:\s+(?:by|through|to|with)|[.!?])/i);
-    if (helpMatch) {
-      workDescription = helpMatch[1].trim();
-    }
-  }
-  
-  // Look for "we set up" or "we create" activities
-  if (!workDescription) {
-    const activityMatch = cleanSpeech.match(/(?:We set up|We create|We organize)\s+([^.!?]+?)(?:\s+(?:so|to)|[.!?])/i);
-    if (activityMatch) {
-      workDescription = activityMatch[1].trim();
-    }
-  }
-  
-  // Look for focus/specialization
-  if (!workDescription) {
-    const focusMatch = cleanSpeech.match(/(?:My focus|I focus on|I specialize in)\s+([^.!?]+?)(?:[.!?])/i);
-    if (focusMatch) {
-      workDescription = focusMatch[1].trim();
-    }
-  }
-  
-  // Extract motivation - comprehensive WHY detection
-  let motivation = null;
-  
-  // Look for "why do I do this" explicit statements
-  const whyDoMatch = cleanSpeech.match(/why do I do this\?[^.!?]*([^.!?]+)/i);
-  if (whyDoMatch) {
-    motivation = whyDoMatch[1].trim();
-  }
-  
-  // Look for belief statements
-  if (!motivation) {
-    const beliefMatch = cleanSpeech.match(/(?:I believe|I truly believe)\s+([^.!?]+)/i);
-    if (beliefMatch) {
-      motivation = beliefMatch[1].trim();
-    }
-  }
-  
-  // Look for personal story motivations
-  if (!motivation) {
-    const storyMotivationMatch = cleanSpeech.match(/(?:That experience|This experience)\s+([^.!?]+)/i);
-    if (storyMotivationMatch) {
-      motivation = storyMotivationMatch[1].trim();
-    }
-  }
-  
-  // Look for "I want to" statements
-  if (!motivation) {
-    const wantMatch = cleanSpeech.match(/I want to\s+([^.!?]+)/i);
-    if (wantMatch) {
-      motivation = wantMatch[1].trim();
-    }
-  }
-  
-  // Look for care/dedication statements
-  if (!motivation) {
-    const careMatch = cleanSpeech.match(/(?:I care about|I'm dedicated to|when I say)\s+([^.!?]+)/i);
-    if (careMatch) {
-      motivation = careMatch[1].trim();
-    }
-  }
-  
-  // Look for family/personal experience motivations
-  if (!motivation) {
-    const personalMatch = cleanSpeech.match(/(?:my sister|my parents|my family)\s+([^.!?]+)/i);
-    if (personalMatch) {
-      motivation = personalMatch[1].trim();
-    }
-  }
-  
-  // Analyze structure
-  const sentences = cleanSpeech.split(/[.!?]+/).filter(s => s.trim().length > 0);
-  const wordCount = cleanSpeech.split(/\s+/).length;
-  const hasTransitions = /(?:now|so|here's the thing|and|but|however|therefore|what's more|additionally)/i.test(cleanSpeech);
-  
-  return (
-    <div className="prose prose-sm max-w-none text-gray-700 font-medium leading-relaxed">
-      <p className="mb-4">
-        This speech demonstrates how the Who-What-Why framework creates connection and credibility through structured personal storytelling.
-      </p>
-      
-      <div className="mb-4">
-        <strong>WHO Framework Component:</strong> {speakerName ? `${speakerName} establishes personal identity immediately, creating trust and memorability.` : 'The speaker introduces themselves without stating their name explicitly.'} 
-        {role ? ` The professional identity as "${role}" provides clear context and credibility, completing the "who am I" foundation.` : ' The speech includes professional context that helps establish credibility.'}
-        {speakerName && role ? ' This strong WHO foundation effectively sets up the framework.' : ' The WHO component establishes professional identity and background.'}
-      </div>
-      
-      <div className="mb-4">
-        <strong>WHAT Framework Component:</strong> {workDescription ? `The speech clearly communicates the value provided: "${workDescription}." This addresses the "what do I do" question with specific, audience-focused language.` : cleanSpeech.includes('help') || cleanSpeech.includes('create') || cleanSpeech.includes('build') || cleanSpeech.includes('work') ? 'The speech describes professional activities and the value provided to clients or customers.' : 'The WHAT section establishes the type of work and services provided.'} 
-        {workDescription ? ' The focus on helping others rather than just listing credentials follows framework best practices for audience engagement.' : ' The speech explains professional activities in terms of impact and outcomes.'}
-      </div>
-      
-      <div className="mb-4">
-        <strong>WHY Framework Component:</strong> {motivation ? `The personal motivation comes through clearly: "${motivation}." This emotional foundation reveals the deeper purpose driving the work.` : cleanSpeech.includes('believe') || cleanSpeech.includes('passion') || cleanSpeech.includes('care') || cleanSpeech.includes('love') ? 'The speech expresses personal motivation and values that drive the professional work.' : 'The WHY component addresses the emotional reasons behind the professional choice.'} 
-        {motivation ? ' This authentic sharing of values creates meaningful connection with the audience.' : ' The speech includes personal elements that explain the motivation behind the work.'}
-      </div>
-      
-      <div className="mb-0">
-        <strong>Areas for Enhancement:</strong>
-        <div className="mt-2 space-y-1">
-          {!speakerName && <div>• Include your name in the introduction to create personal connection and memorability</div>}
-          {!role && <div>• Add a clear professional identity or role to establish credibility and context</div>}
-          {!workDescription && !cleanSpeech.includes('help') && !cleanSpeech.includes('create') && <div>• Describe specific value you provide to clients or customers</div>}
-          {!motivation && !cleanSpeech.includes('believe') && !cleanSpeech.includes('care') && <div>• Share personal motivation or "why" to create emotional connection</div>}
-          {sentences.length > 15 && <div>• Consider shorter sentences for easier spoken delivery</div>}
-          {wordCount > 320 && <div>• Trim content to under 300 words while preserving all framework elements</div>}
-          {wordCount < 200 && <div>• Expand with more specific examples to reach ideal 250-300 word range</div>}
-          {!cleanSpeech.includes('example') && !cleanSpeech.includes('story') && !/\d+%/.test(cleanSpeech) && <div>• Add a concrete success story with measurable outcomes to enhance credibility</div>}
-          {!cleanSpeech.includes('connect') && !cleanSpeech.includes('hear') && !cleanSpeech.includes('together') && <div>• End with a conversation starter to encourage networking</div>}
-          {!hasTransitions && <div>• Add smooth transitions between sections like "What I do is..." and "Here's why this matters..."</div>}
+  });
+
+  useEffect(() => {
+    analyzeSpeech.mutate(speech);
+  }, [speech]);
+
+  if (isLoading) {
+    return (
+      <div className="prose prose-sm max-w-none text-gray-700 font-medium leading-relaxed">
+        <div className="animate-pulse">
+          <div className="h-4 bg-gray-200 rounded w-3/4 mb-4"></div>
+          <div className="h-4 bg-gray-200 rounded w-1/2 mb-2"></div>
+          <div className="h-4 bg-gray-200 rounded w-5/6 mb-4"></div>
+          <div className="h-4 bg-gray-200 rounded w-2/3 mb-2"></div>
+          <div className="h-4 bg-gray-200 rounded w-4/5"></div>
         </div>
-        {(!speakerName && !role && !workDescription && !motivation) || 
-         (sentences.length <= 15 && wordCount >= 200 && wordCount <= 320 && 
-          (cleanSpeech.includes('example') || cleanSpeech.includes('story') || /\d+%/.test(cleanSpeech)) &&
-          (cleanSpeech.includes('connect') || cleanSpeech.includes('hear') || cleanSpeech.includes('together'))) ? 
-         <div className="mt-2 text-green-700 font-medium">This speech effectively implements the Who-What-Why framework with strong examples and engagement elements.</div> : 
-         ''}
       </div>
-    </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="prose prose-sm max-w-none text-red-600 font-medium leading-relaxed">
+        <p>Error analyzing speech: {error}</p>
+        <p className="text-sm text-gray-600">Please try generating a new speech or refresh the page.</p>
+      </div>
+    );
+  }
+
+  // Convert markdown-style formatting to HTML for display
+  const formatAnalysis = (analysisText: string) => {
+    return analysisText
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\n\n/g, '</p><p>')
+      .replace(/\n/g, '<br/>');
+  };
+
+  return (
+    <div 
+      className="prose prose-sm max-w-none text-gray-700 font-medium leading-relaxed"
+      dangerouslySetInnerHTML={{ __html: `<p>${formatAnalysis(analysis || '')}</p>` }}
+    />
   );
 }
 

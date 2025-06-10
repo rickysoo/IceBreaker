@@ -158,6 +158,68 @@ Please respond with JSON in this exact format:
     }
   });
 
+  // Analyze speech endpoint
+  app.post("/api/speech/analyze", async (req, res) => {
+    try {
+      const { speech } = req.body;
+      
+      if (!speech || typeof speech !== 'string') {
+        return res.status(400).json({ error: 'Speech text is required' });
+      }
+
+      const analysisPrompt = `Analyze this self-introduction speech using the Who-What-Why framework. Provide a professional evaluation that examines how effectively the speech implements each framework component.
+
+Speech to analyze:
+"${speech}"
+
+Provide analysis in this exact format:
+
+**Framework Analysis:** [Write 1-2 sentences about overall framework implementation]
+
+**WHO Framework Component:** [Analyze how well the speech establishes identity, credibility, and personal connection. Quote specific phrases from the speech when possible.]
+
+**WHAT Framework Component:** [Analyze how clearly the speech explains the value provided and work performed. Reference specific examples from the speech.]
+
+**WHY Framework Component:** [Analyze how effectively the speech conveys personal motivation and emotional connection. Cite specific motivational statements from the speech.]
+
+**Areas for Enhancement:** [List 3-5 specific, actionable improvements as bullet points. If the speech already implements an element well, acknowledge that strength instead of suggesting to add what's already there.]
+
+Requirements:
+- Reference actual content from the speech, not generic examples
+- Use specific quotes from the speech when analyzing each component
+- Provide concrete, actionable feedback
+- Acknowledge existing strengths before suggesting improvements
+- Focus on framework effectiveness, not just content quality`;
+
+      const analysisResponse = await openai.chat.completions.create({
+        model: "gpt-4o", // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
+        messages: [
+          {
+            role: "system",
+            content: "You are an expert communication coach who analyzes speeches using the Who-What-Why framework. Provide detailed, specific feedback that references actual content from the speech being analyzed."
+          },
+          {
+            role: "user",
+            content: analysisPrompt
+          }
+        ],
+        temperature: 0.3,
+        max_tokens: 800
+      });
+
+      const analysis = analysisResponse.choices[0].message.content;
+
+      res.json({ analysis });
+
+    } catch (error: any) {
+      console.error('Speech analysis error:', error);
+      res.status(500).json({ 
+        error: 'Failed to analyze speech',
+        details: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
