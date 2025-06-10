@@ -43,30 +43,58 @@ INSTRUCTIONS:
 
 CRITICAL: This is a SPEECH to be SPOKEN out loud, not an essay to be read. Make it sound natural when spoken aloud.
 
+Language Requirements:
+- Use HIGH SCHOOL level language - simple, clear, everyday words
+- Write SHORT sentences (10-15 words maximum)
+- Use SHORT paragraphs (2-3 sentences each)
+- NO jargon, technical terms, or complex vocabulary
+- Use contractions and casual language
+- Make it conversational and easy to follow
+
 Speech Requirements:
-- Use conversational language with natural speech patterns
 - Include pauses, transitions, and speaking rhythms (use punctuation to indicate)
-- Use shorter sentences that are easy to speak
-- Include contractions and casual language where appropriate
 - Make it flow naturally when read aloud
 - Use "you" to directly address the audience
 - Include natural speaking connectors like "Now," "So," "And here's the thing..."
-- Add light storytelling elements and dramatization to make it engaging
-- Use vivid, descriptive language that paints a picture
-- Include moments of tension, revelation, or transformation in the narrative
+- Add light storytelling elements but keep language simple
+- Use specific examples instead of abstract concepts
+
+AVOID These AI Cliche Words/Phrases:
+- "power" or "powerful"
+- "unlock" or "unlocking"
+- "tapestry"
+- "picture this"
+- "imagine this"
+- "landscape" (metaphorically)
+- "journey" (unless literal travel)
+- "passion" (use "love" or "care about" instead)
+- "game-changer"
+- "cutting-edge"
+- "revolutionary"
+- "transform" or "transformation" 
+- "leverage"
+- "synergy"
+- "paradigm"
+- "ecosystem"
 
 Content Guidelines:
 - Use the provided information exactly as given
 - For missing information, create realistic details that enhance the story
-- Add storytelling flair and dramatization around experiences and motivations
-- Make it feel like a compelling personal story
+- Add storytelling elements but keep language simple and clear
+- Make it feel like a genuine personal story
 
 Framework guidelines:
 - WHO: Start with clear identity, add meaningful context, connect with audience
 - WHAT: Describe who they help and how, use simple specific language, show results not just roles  
 - WHY: Share belief or turning point, make it relatable and emotional, tie why to what
 
-The speech should be exactly around 300 words, engaging, and follow the Who-What-Why structure naturally. Write it as if the person is speaking directly to a live audience with confidence and charisma.
+Structure Requirements:
+- Break into SHORT paragraphs (2-3 sentences each)
+- Use simple connecting words between paragraphs
+- Keep each sentence focused on one main idea
+- Make transitions smooth and natural
+
+The speech should be exactly around 300 words, engaging, and follow the Who-What-Why structure naturally. Write it as if the person is speaking directly to a live audience with confidence but using everyday language.
 
 Please respond with JSON in this exact format:
 {

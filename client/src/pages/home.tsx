@@ -32,6 +32,11 @@ export default function Home() {
     }
   };
 
+  const handleSwitchToSpeech = () => {
+    setActiveTab("speech");
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <div className="bg-gradient-to-br from-pink-100 via-cyan-100 to-yellow-100 min-h-screen">
       {/* Header */}
@@ -76,7 +81,7 @@ export default function Home() {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
               {/* Framework Guide */}
               <div className="lg:col-span-12">
-                <FrameworkGuide onSwitchToSpeech={() => setActiveTab("speech")} />
+                <FrameworkGuide onSwitchToSpeech={handleSwitchToSpeech} />
               </div>
             </div>
           </TabsContent>
