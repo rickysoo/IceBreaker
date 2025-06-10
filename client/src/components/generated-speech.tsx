@@ -92,36 +92,27 @@ export default function GeneratedSpeech({ speech, onRegenerate, formData }: Gene
         {/* Speech Analysis */}
         <div className="bg-gray-50 rounded-lg p-6 mb-6 border border-gray-200">
           <h3 className="text-lg font-bold text-gray-900 mb-4 drop-shadow-sm">Speech Analysis</h3>
-          <div className="space-y-4">
-            <div className="flex items-start space-x-3">
-              <div className="w-6 h-6 bg-primary-100 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                <span className="text-primary-600 font-bold text-sm">W</span>
-              </div>
-              <div>
-                <h4 className="font-semibold text-gray-900 mb-1">WHO Analysis</h4>
-                <p className="text-sm text-gray-700 font-medium">Your speech introduces your identity and establishes credibility by sharing your name, role, and relevant background context that connects with your audience.</p>
-              </div>
-            </div>
+          
+          <div className="prose prose-sm max-w-none text-gray-700 font-medium leading-relaxed">
+            <p className="mb-4">
+              The speech effectively follows the Who-What-Why framework, creating a compelling narrative that connects with the audience on multiple levels.
+            </p>
             
-            <div className="flex items-start space-x-3">
-              <div className="w-6 h-6 bg-secondary-100 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                <span className="text-secondary-600 font-bold text-sm">W</span>
-              </div>
-              <div>
-                <h4 className="font-semibold text-gray-900 mb-1">WHAT Analysis</h4>
-                <p className="text-sm text-gray-700 font-medium">The speech clearly describes what you do, who you help, and the specific value you provide. It focuses on outcomes and impact rather than just job titles.</p>
-              </div>
-            </div>
+            <p className="mb-4">
+              <strong>WHO:</strong> The speech establishes identity and credibility early by introducing the speaker's name and professional role. The background context helps the audience understand the speaker's journey and qualifications, making them relatable and trustworthy.
+            </p>
             
-            <div className="flex items-start space-x-3">
-              <div className="w-6 h-6 bg-warning-100 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                <span className="text-warning-600 font-bold text-sm">W</span>
-              </div>
-              <div>
-                <h4 className="font-semibold text-gray-900 mb-1">WHY Analysis</h4>
-                <p className="text-sm text-gray-700 font-medium">Your speech reveals your deeper motivation and personal beliefs that drive your work, creating an emotional connection with listeners and making you memorable.</p>
-              </div>
-            </div>
+            <p className="mb-4">
+              <strong>WHAT:</strong> The speech clearly articulates the specific value provided and who benefits from the work. Rather than simply stating a job title, it focuses on concrete outcomes and real-world impact, helping the audience understand exactly how the speaker makes a difference.
+            </p>
+            
+            <p className="mb-4">
+              <strong>WHY:</strong> The speech reveals the deeper motivation and personal beliefs that drive the work. This emotional component creates a memorable connection and helps the audience understand what truly matters to the speaker.
+            </p>
+            
+            <p className="mb-0">
+              <strong>Areas for improvement:</strong> The speech could benefit from more specific examples or brief anecdotes to illustrate key points. Adding concrete numbers or measurable outcomes would strengthen credibility. Consider including a subtle call-to-action or invitation for further conversation to maximize networking opportunities.
+            </p>
           </div>
         </div>
 
