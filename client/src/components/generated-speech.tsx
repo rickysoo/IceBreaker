@@ -8,55 +8,100 @@ import { apiRequest } from "@/lib/queryClient";
 import type { GenerateSpeechResponse } from "@/lib/openai";
 
 function SpeechAnalysisContent({ speech }: { speech: string }) {
-  // Extract speaker name
-  const nameMatch = speech.match(/(?:I'm|I am|My name is|Hello.*I'm|Hi.*I'm)\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)/i);
-  const speakerName = nameMatch ? nameMatch[1] : null;
+  // Clean up the speech text
+  const cleanSpeech = speech.replace(/\s+/g, ' ').trim();
   
-  // Extract role/identity
-  const roleMatch = speech.match(/(?:I'm|I am)\s+(?:a|an)?\s*([^.!?]+?)(?:\.|,|and|who)/i);
-  const role = roleMatch ? roleMatch[1].trim() : null;
+  // Extract speaker name - more precise patterns
+  const namePatterns = [
+    /(?:Hello|Hi)[^.!?]*(?:I'm|I am|my name is)\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)/i,
+    /(?:I'm|I am|My name is)\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)/i
+  ];
+  let speakerName = null;
+  for (const pattern of namePatterns) {
+    const match = cleanSpeech.match(pattern);
+    if (match) {
+      speakerName = match[1];
+      break;
+    }
+  }
   
-  // Check for specific work description
-  const workMatch = speech.match(/(?:I help|I work with|I specialize in|I focus on|I assist)([^.!?]+)/i);
-  const workDescription = workMatch ? workMatch[1].trim() : null;
+  // Extract role/identity - look for profession or role
+  const rolePatterns = [
+    /(?:I'm|I am)\s+(?:a|an)\s+([^.!?,]+?)(?:\s+(?:who|that|and)|[.!?,])/i,
+    /(?:I work as|I serve as|I am)\s+(?:a|an)?\s*([^.!?,]+?)(?:\s+(?:who|that|and)|[.!?,])/i
+  ];
+  let role = null;
+  for (const pattern of rolePatterns) {
+    const match = cleanSpeech.match(pattern);
+    if (match) {
+      role = match[1].trim();
+      break;
+    }
+  }
   
-  // Check for motivation/why statements
-  const motivationMatch = speech.match(/(?:because|why|believe|passionate about|care about|love|what drives me)([^.!?]+)/i);
-  const motivation = motivationMatch ? motivationMatch[1].trim() : null;
+  // Extract work description - what they do
+  const workPatterns = [
+    /(?:I help|I assist|I work with|I support|I teach|I guide)\s+([^.!?]+?)(?:\s+(?:by|through|to)|[.!?])/i,
+    /(?:I specialize in|I focus on|My work involves)\s+([^.!?]+?)(?:[.!?])/i
+  ];
+  let workDescription = null;
+  for (const pattern of workPatterns) {
+    const match = cleanSpeech.match(pattern);
+    if (match) {
+      workDescription = match[1].trim();
+      break;
+    }
+  }
+  
+  // Extract motivation - why they do it
+  const motivationPatterns = [
+    /(?:because|why)\s+([^.!?]+)/i,
+    /(?:I believe|I'm passionate about|what drives me|I care about)\s+([^.!?]+)/i,
+    /(?:My passion|What motivates me)\s+(?:is|comes from)\s+([^.!?]+)/i
+  ];
+  let motivation = null;
+  for (const pattern of motivationPatterns) {
+    const match = cleanSpeech.match(pattern);
+    if (match) {
+      motivation = match[1].trim();
+      break;
+    }
+  }
   
   // Analyze structure
-  const sentences = speech.split(/[.!?]+/).filter(s => s.trim().length > 0);
-  const wordCount = speech.split(/\s+/).length;
-  const hasTransitions = /(?:now|so|here's the thing|and|but|however|therefore)/i.test(speech);
+  const sentences = cleanSpeech.split(/[.!?]+/).filter(s => s.trim().length > 0);
+  const wordCount = cleanSpeech.split(/\s+/).length;
+  const hasTransitions = /(?:now|so|here's the thing|and|but|however|therefore|what's more|additionally)/i.test(cleanSpeech);
   
   return (
     <div className="prose prose-sm max-w-none text-gray-700 font-medium leading-relaxed">
       <p className="mb-4">
-        Framework Analysis: This speech follows the Who-What-Why structure with varying degrees of effectiveness across each component.
+        This speech demonstrates how the Who-What-Why framework creates connection and credibility through structured personal storytelling.
       </p>
       
       <div className="mb-4">
-        <strong>WHO Framework Component:</strong> {speakerName ? `The speech establishes identity clearly with "${speakerName}" and ${role ? `professional context through "${role}".` : 'mentions their name but could strengthen professional identity.'}` : 'The speech lacks personal identification, which weakens the WHO foundation of the framework.'} 
-        {speakerName && role ? ` This combination effectively addresses the "who am I" question that forms the framework's first pillar.` : speakerName ? ' While the name provides personal connection, adding a clear professional identity would complete this framework element.' : ' The WHO component needs strengthening with both name and role to establish credibility.'}
+        <strong>WHO Framework Component:</strong> {speakerName ? `${speakerName} establishes personal identity immediately, creating trust and memorability.` : 'The speech opens without personal identification, missing an opportunity to build immediate connection.'} 
+        {role ? ` The professional identity as ${role} provides context and credibility, completing the "who am I" foundation.` : ' Adding a clear professional role would strengthen audience understanding of expertise and background.'}
+        {speakerName && role ? ' This strong WHO foundation sets up the framework effectively.' : ''}
       </div>
       
       <div className="mb-4">
-        <strong>WHAT Framework Component:</strong> {workDescription ? `The speech addresses the "what do I do" framework element through "${workDescription.length > 60 ? workDescription.substring(0, 60) + '...' : workDescription}" This demonstrates clear value proposition within the framework.` : 'The WHAT component of the framework is underdeveloped, lacking specific description of services or value provided.'} 
-        {workDescription ? ' The focus on helping others aligns well with the framework\'s emphasis on audience-centered messaging.' : ' To strengthen this framework pillar, the speech needs specific examples like "I help small business owners increase their online sales" or "I teach teenagers essential life skills through mentorship programs."'}
+        <strong>WHAT Framework Component:</strong> {workDescription ? `The speech clearly explains the value provided: "${workDescription}." This addresses the critical "what do I do" question with specific, audience-focused language.` : 'The WHAT section needs development - listeners need to understand specific services, skills, or value provided.'} 
+        {workDescription ? ' By focusing on helping others rather than job titles, the speech follows framework best practices for audience engagement.' : ' Consider adding concrete examples like "I help restaurant owners reduce food waste by 30%" or "I teach public speaking skills to overcome presentation anxiety."'}
       </div>
       
       <div className="mb-4">
-        <strong>WHY Framework Component:</strong> {motivation ? `The speech incorporates the "why do I do this" framework element with "${motivation.length > 60 ? motivation.substring(0, 60) + '...' : motivation}" This addresses the emotional driver that the framework emphasizes.` : 'The WHY component, which forms the framework\'s emotional core, is missing from this speech.'} 
-        {motivation ? ' This personal motivation creates the emotional resonance that makes the framework effective for audience connection.' : ' To complete the framework, the speech should include statements like "I became passionate about education after seeing how much confidence my students gained" or "My own struggles with time management inspired me to help others organize their lives."'}
+        <strong>WHY Framework Component:</strong> {motivation ? `The emotional driver comes through clearly: "${motivation}." This personal motivation completes the framework by revealing what truly matters beyond professional obligations.` : 'The WHY element - the emotional core that makes speeches memorable - is absent from this version.'} 
+        {motivation ? ' This authenticity creates the connection that transforms professional introductions into meaningful conversations.' : ' Adding genuine motivation like "I started this work after my own experience with workplace stress" or "Teaching became my passion when I saw how education changed my community" would complete the framework.'}
       </div>
       
       <div className="mb-0">
-        <strong>Framework Improvement Opportunities:</strong> 
-        {sentences.length > 15 ? 'Simplify sentence structure for better spoken delivery. ' : ''}
-        {!hasTransitions ? 'Add framework transitions like "Now here\'s what I do..." or "And here\'s why this matters to me..." to clearly delineate WHO-WHAT-WHY sections. ' : ''}
-        {wordCount > 320 ? 'Trim content to under 300 words while maintaining all three framework components. ' : ''}
-        {!speech.includes('you') ? 'Include audience connection with direct address to strengthen framework impact. ' : ''}
-        To enhance framework effectiveness: {speakerName ? `${speakerName} should add` : 'Include'} a concrete success story like "Last year, I helped reduce client stress by 40% through my organizational system" and conclude with an engagement prompt like "I'd love to hear what challenges you're facing with productivity."
+        <strong>Framework Enhancement Suggestions:</strong> 
+        {sentences.length > 15 ? 'Consider shorter sentences for easier spoken delivery. ' : ''}
+        {!hasTransitions ? 'Add smooth transitions between framework sections: "What I do is..." followed by "The reason this matters to me is..." ' : ''}
+        {wordCount > 320 ? 'Trim to under 300 words while preserving all three framework elements. ' : ''}
+        {!speech.toLowerCase().includes('you') ? 'Include direct audience connection with "you" language to strengthen engagement. ' : ''}
+        For maximum impact: Add a brief success story like "Recently, I helped a client achieve their first profitable quarter" and close with conversation starter like "What brings you to this event tonight?"
       </div>
     </div>
   );
