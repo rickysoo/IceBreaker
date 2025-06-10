@@ -89,25 +89,7 @@ export default function GeneratedSpeech({ speech, onRegenerate, formData }: Gene
           </div>
         </div>
 
-        {/* Speech Stats */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
-          <div className="bg-primary-50 rounded-lg p-4 text-center">
-            <div className="text-2xl font-bold text-primary-600">{speech.wordCount}</div>
-            <div className="text-sm text-primary-700">Words</div>
-          </div>
-          <div className="bg-secondary-50 rounded-lg p-4 text-center">
-            <div className="text-2xl font-bold text-secondary-600">~{speech.readTime}</div>
-            <div className="text-sm text-secondary-700">Min Read</div>
-          </div>
-          <div className="bg-success-50 rounded-lg p-4 text-center">
-            <div className="text-2xl font-bold text-success-600">A+</div>
-            <div className="text-sm text-success-700">Readability</div>
-          </div>
-          <div className="bg-warning-50 rounded-lg p-4 text-center">
-            <div className="text-2xl font-bold text-warning-600">✓</div>
-            <div className="text-sm text-warning-700">Framework</div>
-          </div>
-        </div>
+
 
         {/* AI Disclaimer */}
         <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-6">
