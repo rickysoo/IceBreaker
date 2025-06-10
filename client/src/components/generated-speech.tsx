@@ -31,29 +31,32 @@ function SpeechAnalysisContent({ speech }: { speech: string }) {
   
   return (
     <div className="prose prose-sm max-w-none text-gray-700 font-medium leading-relaxed">
+      <p className="mb-4">
+        Framework Analysis: This speech follows the Who-What-Why structure with varying degrees of effectiveness across each component.
+      </p>
+      
       <div className="mb-4">
-        <strong>WHO Analysis:</strong> The speech establishes identity through {speakerName ? `the introduction "My name is ${speakerName}"` : 'a general greeting without specific name mention'}. 
-        {role ? ` ${speakerName || 'The speaker'} identifies as ${role}, which immediately establishes professional context.` : ' The speech could be strengthened by including a clear professional identity statement.'}
-        {speakerName && role ? ' This combination of personal name and role creates immediate credibility and connection.' : ''}
+        <strong>WHO Framework Component:</strong> {speakerName ? `The speech establishes identity clearly with "${speakerName}" and ${role ? `professional context through "${role}".` : 'mentions their name but could strengthen professional identity.'}` : 'The speech lacks personal identification, which weakens the WHO foundation of the framework.'} 
+        {speakerName && role ? ` This combination effectively addresses the "who am I" question that forms the framework's first pillar.` : speakerName ? ' While the name provides personal connection, adding a clear professional identity would complete this framework element.' : ' The WHO component needs strengthening with both name and role to establish credibility.'}
       </div>
       
       <div className="mb-4">
-        <strong>WHAT Analysis:</strong> {workDescription ? `The speech describes specific work: "${workDescription.substring(0, 50)}..." This clearly communicates value and target audience.` : 'The speech lacks specific description of work performed and value provided to others.'} 
-        {workDescription ? ' The focus on helping others rather than job titles makes the content more relatable and impactful.' : ' Consider adding phrases like "I help [specific audience] achieve [specific outcome]" to strengthen this section.'}
+        <strong>WHAT Framework Component:</strong> {workDescription ? `The speech addresses the "what do I do" framework element through "${workDescription.length > 60 ? workDescription.substring(0, 60) + '...' : workDescription}" This demonstrates clear value proposition within the framework.` : 'The WHAT component of the framework is underdeveloped, lacking specific description of services or value provided.'} 
+        {workDescription ? ' The focus on helping others aligns well with the framework\'s emphasis on audience-centered messaging.' : ' To strengthen this framework pillar, the speech needs specific examples like "I help small business owners increase their online sales" or "I teach teenagers essential life skills through mentorship programs."'}
       </div>
       
       <div className="mb-4">
-        <strong>WHY Analysis:</strong> {motivation ? `Personal motivation appears in the phrase "${motivation.substring(0, 50)}..." which reveals deeper purpose behind the work.` : 'The speech lacks explicit motivation or "why" statements that would create emotional connection.'} 
-        {motivation ? ' This emotional element helps listeners understand what drives the speaker beyond professional obligations.' : ' Adding statements like "I believe..." or "What drives me is..." would strengthen audience connection.'}
+        <strong>WHY Framework Component:</strong> {motivation ? `The speech incorporates the "why do I do this" framework element with "${motivation.length > 60 ? motivation.substring(0, 60) + '...' : motivation}" This addresses the emotional driver that the framework emphasizes.` : 'The WHY component, which forms the framework\'s emotional core, is missing from this speech.'} 
+        {motivation ? ' This personal motivation creates the emotional resonance that makes the framework effective for audience connection.' : ' To complete the framework, the speech should include statements like "I became passionate about education after seeing how much confidence my students gained" or "My own struggles with time management inspired me to help others organize their lives."'}
       </div>
       
       <div className="mb-0">
-        <strong>Improvement Opportunities:</strong> 
-        {sentences.length > 15 ? ' Consider shortening some sentences for better spoken delivery. ' : ''}
-        {!hasTransitions ? 'Add transitional phrases between sections like "Now, here\'s what I do..." or "And here\'s why this matters to me..." ' : ''}
-        {wordCount > 320 ? 'The speech is slightly long - trim to under 300 words for optimal timing. ' : ''}
-        {!speech.includes('you') ? 'Include direct audience address with "you" to create connection. ' : ''}
-        Specific enhancement: {speakerName ? `${speakerName} could add` : 'Add'} a concrete example like "Last month, I helped a client achieve [specific result]" and end with "I'd love to hear about your [relevant challenge/goal]" to encourage conversation.
+        <strong>Framework Improvement Opportunities:</strong> 
+        {sentences.length > 15 ? 'Simplify sentence structure for better spoken delivery. ' : ''}
+        {!hasTransitions ? 'Add framework transitions like "Now here\'s what I do..." or "And here\'s why this matters to me..." to clearly delineate WHO-WHAT-WHY sections. ' : ''}
+        {wordCount > 320 ? 'Trim content to under 300 words while maintaining all three framework components. ' : ''}
+        {!speech.includes('you') ? 'Include audience connection with direct address to strengthen framework impact. ' : ''}
+        To enhance framework effectiveness: {speakerName ? `${speakerName} should add` : 'Include'} a concrete success story like "Last year, I helped reduce client stress by 40% through my organizational system" and conclude with an engagement prompt like "I'd love to hear what challenges you're facing with productivity."
       </div>
     </div>
   );
