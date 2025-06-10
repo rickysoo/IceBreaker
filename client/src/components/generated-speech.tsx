@@ -11,13 +11,21 @@ function SpeechAnalysisContent({ speech }: { speech: string }) {
   // Clean up the speech text
   const cleanSpeech = speech.replace(/\s+/g, ' ').trim();
   
-  // Extract speaker name - more precise patterns
+  // Extract speaker name with comprehensive patterns
   let speakerName = null;
   
-  // Look for "I'm [Name]" patterns at the beginning
-  const directNameMatch = cleanSpeech.match(/(?:Hello|Hi)[^.!?]*I'm\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)/i);
-  if (directNameMatch) {
-    speakerName = directNameMatch[1];
+  // Look for "my name's [Name]" or "my name is [Name]"
+  const nameIsMatch = cleanSpeech.match(/my name(?:'s|'s| is)\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)/i);
+  if (nameIsMatch) {
+    speakerName = nameIsMatch[1];
+  }
+  
+  // Look for "I'm [Name]" patterns
+  if (!speakerName) {
+    const directNameMatch = cleanSpeech.match(/(?:Hello|Hi)[^.!?]*I'm\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)/i);
+    if (directNameMatch) {
+      speakerName = directNameMatch[1];
+    }
   }
   
   // Look for "My name is [Name]" patterns
@@ -28,7 +36,7 @@ function SpeechAnalysisContent({ speech }: { speech: string }) {
     }
   }
   
-  // Look for simple "I'm [Name]" at start of sentences
+  // Look for simple "I'm [Name]" at start
   if (!speakerName) {
     const simpleNameMatch = cleanSpeech.match(/^[^.!?]*I'm\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)/i);
     if (simpleNameMatch) {
@@ -86,42 +94,50 @@ function SpeechAnalysisContent({ speech }: { speech: string }) {
     }
   }
   
-  // Extract motivation - why they do it (more comprehensive)
+  // Extract motivation - comprehensive WHY detection
   let motivation = null;
   
-  // Look for belief statements
-  const beliefMatch = cleanSpeech.match(/(?:I believe|Well, I believe)\s+([^.!?]+)/i);
-  if (beliefMatch) {
-    motivation = beliefMatch[1].trim();
+  // Look for "why do I do this" explicit statements
+  const whyDoMatch = cleanSpeech.match(/why do I do this\?[^.!?]*([^.!?]+)/i);
+  if (whyDoMatch) {
+    motivation = whyDoMatch[1].trim();
   }
   
-  // Look for care/passion statements
+  // Look for belief statements
   if (!motivation) {
-    const careMatch = cleanSpeech.match(/(?:I care about|I'm passionate about|what drives me|What motivates me)\s+([^.!?]+)/i);
+    const beliefMatch = cleanSpeech.match(/(?:I believe|I truly believe)\s+([^.!?]+)/i);
+    if (beliefMatch) {
+      motivation = beliefMatch[1].trim();
+    }
+  }
+  
+  // Look for personal story motivations
+  if (!motivation) {
+    const storyMotivationMatch = cleanSpeech.match(/(?:That experience|This experience)\s+([^.!?]+)/i);
+    if (storyMotivationMatch) {
+      motivation = storyMotivationMatch[1].trim();
+    }
+  }
+  
+  // Look for "I want to" statements
+  if (!motivation) {
+    const wantMatch = cleanSpeech.match(/I want to\s+([^.!?]+)/i);
+    if (wantMatch) {
+      motivation = wantMatch[1].trim();
+    }
+  }
+  
+  // Look for care/dedication statements
+  if (!motivation) {
+    const careMatch = cleanSpeech.match(/(?:I care about|I'm dedicated to|when I say)\s+([^.!?]+)/i);
     if (careMatch) {
       motivation = careMatch[1].trim();
     }
   }
   
-  // Look for why explanations
+  // Look for family/personal experience motivations
   if (!motivation) {
-    const whyMatch = cleanSpeech.match(/(?:why I|This is why|That's why)\s+([^.!?]+)/i);
-    if (whyMatch) {
-      motivation = whyMatch[1].trim();
-    }
-  }
-  
-  // Look for story-based motivations
-  if (!motivation) {
-    const storyMatch = cleanSpeech.match(/(?:So, I decided|This made me|I realized|That's why I|Growing up)\s+([^.!?]+)/i);
-    if (storyMatch) {
-      motivation = storyMatch[1].trim();
-    }
-  }
-  
-  // Look for emotional connections with family/personal experience
-  if (!motivation) {
-    const personalMatch = cleanSpeech.match(/(?:my parents|my family|I saw|seeing)\s+([^.!?]+)/i);
+    const personalMatch = cleanSpeech.match(/(?:my sister|my parents|my family)\s+([^.!?]+)/i);
     if (personalMatch) {
       motivation = personalMatch[1].trim();
     }
