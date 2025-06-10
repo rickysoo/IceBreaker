@@ -82,8 +82,8 @@ export default function GeneratedSpeech({ speech, onRegenerate, formData }: Gene
 
   const regenerateMutation = useMutation({
     mutationFn: async (data: any): Promise<GenerateSpeechResponse> => {
-      const response = await apiRequest("POST", "/api/speech/generate", data);
-      return response.json();
+      const response = await apiRequest("/api/speech/generate", "POST", data);
+      return response;
     },
     onSuccess: (data) => {
       // Update the parent with the new speech data
