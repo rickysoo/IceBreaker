@@ -12,16 +12,27 @@ function SpeechAnalysisContent({ speech }: { speech: string }) {
   const cleanSpeech = speech.replace(/\s+/g, ' ').trim();
   
   // Extract speaker name - more precise patterns
-  const namePatterns = [
-    /(?:Hello|Hi)[^.!?]*(?:I'm|I am|my name is)\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)/i,
-    /(?:I'm|I am|My name is)\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)/i
-  ];
   let speakerName = null;
-  for (const pattern of namePatterns) {
-    const match = cleanSpeech.match(pattern);
-    if (match) {
-      speakerName = match[1];
-      break;
+  
+  // Look for "I'm [Name]" patterns at the beginning
+  const directNameMatch = cleanSpeech.match(/(?:Hello|Hi)[^.!?]*I'm\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)/i);
+  if (directNameMatch) {
+    speakerName = directNameMatch[1];
+  }
+  
+  // Look for "My name is [Name]" patterns
+  if (!speakerName) {
+    const formalNameMatch = cleanSpeech.match(/My name is\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)/i);
+    if (formalNameMatch) {
+      speakerName = formalNameMatch[1];
+    }
+  }
+  
+  // Look for simple "I'm [Name]" at start of sentences
+  if (!speakerName) {
+    const simpleNameMatch = cleanSpeech.match(/^[^.!?]*I'm\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)/i);
+    if (simpleNameMatch) {
+      speakerName = simpleNameMatch[1];
     }
   }
   
@@ -91,9 +102,17 @@ function SpeechAnalysisContent({ speech }: { speech: string }) {
   
   // Look for story-based motivations
   if (!motivation) {
-    const storyMatch = cleanSpeech.match(/(?:So, I decided|This made me|I realized)\s+([^.!?]+)/i);
+    const storyMatch = cleanSpeech.match(/(?:So, I decided|This made me|I realized|That's why I|Growing up)\s+([^.!?]+)/i);
     if (storyMatch) {
       motivation = storyMatch[1].trim();
+    }
+  }
+  
+  // Look for emotional connections with family/personal experience
+  if (!motivation) {
+    const personalMatch = cleanSpeech.match(/(?:my parents|my family|I saw|seeing)\s+([^.!?]+)/i);
+    if (personalMatch) {
+      motivation = personalMatch[1].trim();
     }
   }
   
@@ -127,10 +146,11 @@ function SpeechAnalysisContent({ speech }: { speech: string }) {
       <div className="mb-0">
         <strong>Framework Enhancement Suggestions:</strong> 
         {sentences.length > 15 ? 'Consider shorter sentences for easier spoken delivery. ' : ''}
-        {!hasTransitions ? 'Add smooth transitions between framework sections: "What I do is..." followed by "The reason this matters to me is..." ' : ''}
-        {wordCount > 320 ? 'Trim to under 300 words while preserving all three framework elements. ' : ''}
-        {!speech.toLowerCase().includes('you') ? 'Include direct audience connection with "you" language to strengthen engagement. ' : ''}
-        For maximum impact: Add a brief success story like "Recently, I helped a client achieve their first profitable quarter" and close with conversation starter like "What brings you to this event tonight?"
+        {!hasTransitions ? 'Add smooth transitions between framework sections like "What I do is..." followed by "The reason this matters to me is..." ' : 'The speech flows well with natural transitions between sections. '}
+        {wordCount > 320 ? 'Trim to under 300 words while preserving all three framework elements. ' : wordCount < 200 ? 'Consider expanding with more specific examples or outcomes to reach the ideal 250-300 word range. ' : 'The word count is well-optimized for speaking time. '}
+        {!speech.toLowerCase().includes('you') ? 'Include direct audience connection with "you" language to strengthen engagement. ' : 'Good use of audience connection throughout the speech. '}
+        {cleanSpeech.includes('example') || cleanSpeech.includes('story') || /\d+%/.test(cleanSpeech) ? 'Excellent use of concrete examples and measurable results - this strengthens credibility significantly. ' : 'Adding a specific success story with measurable outcomes would enhance credibility. '}
+        {cleanSpeech.includes('connect') || cleanSpeech.includes('hear') || cleanSpeech.includes('together') ? 'Strong closing that invites further conversation and connection.' : 'Consider ending with a conversation starter like "I\'d love to hear about your business challenges" to encourage networking.'}
       </div>
     </div>
   );
