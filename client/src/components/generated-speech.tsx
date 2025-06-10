@@ -98,21 +98,21 @@ export default function GeneratedSpeech({ speech, onRegenerate, formData }: Gene
               The speech effectively follows the Who-What-Why framework, creating a compelling narrative that connects with the audience on multiple levels.
             </p>
             
-            <p className="mb-4">
-              <strong>WHO:</strong> The speech establishes identity and credibility early by introducing the speaker's name and professional role. The background context helps the audience understand the speaker's journey and qualifications, making them relatable and trustworthy.
-            </p>
+            <div className="mb-4">
+              <strong>WHO Analysis:</strong> The speech opens by establishing identity and credibility with a clear introduction. {speech.speech.includes('I\'m') || speech.speech.includes('My name') ? 'The speaker introduces themselves by name, immediately establishing personal connection.' : 'The speech could be strengthened by including the speaker\'s name for personal connection.'} The background context helps listeners understand the speaker's journey and qualifications, making them both relatable and trustworthy.
+            </div>
             
-            <p className="mb-4">
-              <strong>WHAT:</strong> The speech clearly articulates the specific value provided and who benefits from the work. Rather than simply stating a job title, it focuses on concrete outcomes and real-world impact, helping the audience understand exactly how the speaker makes a difference.
-            </p>
+            <div className="mb-4">
+              <strong>WHAT Analysis:</strong> The speech articulates the specific value provided and target audience. {speech.speech.length > 200 ? 'The middle section details the work performed and its impact on specific groups.' : 'This section could be expanded with more specific details about services provided.'} Rather than simply stating job titles, the content focuses on concrete outcomes and real-world benefits that resonate with listeners.
+            </div>
             
-            <p className="mb-4">
-              <strong>WHY:</strong> The speech reveals the deeper motivation and personal beliefs that drive the work. This emotional component creates a memorable connection and helps the audience understand what truly matters to the speaker.
-            </p>
+            <div className="mb-4">
+              <strong>WHY Analysis:</strong> The speech reveals deeper motivation and personal beliefs driving the work. {speech.speech.includes('because') || speech.speech.includes('why') || speech.speech.includes('believe') ? 'Personal motivation is clearly expressed, creating emotional resonance.' : 'Adding explicit motivation statements would strengthen emotional connection.'} This component helps the audience understand what truly matters to the speaker beyond professional obligations.
+            </div>
             
-            <p className="mb-0">
-              <strong>Areas for improvement:</strong> The speech could benefit from more specific examples or brief anecdotes to illustrate key points. Adding concrete numbers or measurable outcomes would strengthen credibility. Consider including a subtle call-to-action or invitation for further conversation to maximize networking opportunities.
-            </p>
+            <div className="mb-0">
+              <strong>Improvement Opportunities:</strong> The speech could benefit from more specific metrics or brief success stories to illustrate impact. Adding transitional phrases between framework sections would improve flow. Consider including a subtle invitation for follow-up conversations to maximize networking potential and leave listeners with a clear next step.
+            </div>
           </div>
         </div>
 
