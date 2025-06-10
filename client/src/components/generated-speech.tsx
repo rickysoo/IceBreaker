@@ -7,6 +7,58 @@ import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import type { GenerateSpeechResponse } from "@/lib/openai";
 
+function SpeechAnalysisContent({ speech }: { speech: string }) {
+  // Extract speaker name
+  const nameMatch = speech.match(/(?:I'm|I am|My name is|Hello.*I'm|Hi.*I'm)\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)/i);
+  const speakerName = nameMatch ? nameMatch[1] : null;
+  
+  // Extract role/identity
+  const roleMatch = speech.match(/(?:I'm|I am)\s+(?:a|an)?\s*([^.!?]+?)(?:\.|,|and|who)/i);
+  const role = roleMatch ? roleMatch[1].trim() : null;
+  
+  // Check for specific work description
+  const workMatch = speech.match(/(?:I help|I work with|I specialize in|I focus on|I assist)([^.!?]+)/i);
+  const workDescription = workMatch ? workMatch[1].trim() : null;
+  
+  // Check for motivation/why statements
+  const motivationMatch = speech.match(/(?:because|why|believe|passionate about|care about|love|what drives me)([^.!?]+)/i);
+  const motivation = motivationMatch ? motivationMatch[1].trim() : null;
+  
+  // Analyze structure
+  const sentences = speech.split(/[.!?]+/).filter(s => s.trim().length > 0);
+  const wordCount = speech.split(/\s+/).length;
+  const hasTransitions = /(?:now|so|here's the thing|and|but|however|therefore)/i.test(speech);
+  
+  return (
+    <div className="prose prose-sm max-w-none text-gray-700 font-medium leading-relaxed">
+      <div className="mb-4">
+        <strong>WHO Analysis:</strong> The speech establishes identity through {speakerName ? `the introduction "My name is ${speakerName}"` : 'a general greeting without specific name mention'}. 
+        {role ? ` ${speakerName || 'The speaker'} identifies as ${role}, which immediately establishes professional context.` : ' The speech could be strengthened by including a clear professional identity statement.'}
+        {speakerName && role ? ' This combination of personal name and role creates immediate credibility and connection.' : ''}
+      </div>
+      
+      <div className="mb-4">
+        <strong>WHAT Analysis:</strong> {workDescription ? `The speech describes specific work: "${workDescription.substring(0, 50)}..." This clearly communicates value and target audience.` : 'The speech lacks specific description of work performed and value provided to others.'} 
+        {workDescription ? ' The focus on helping others rather than job titles makes the content more relatable and impactful.' : ' Consider adding phrases like "I help [specific audience] achieve [specific outcome]" to strengthen this section.'}
+      </div>
+      
+      <div className="mb-4">
+        <strong>WHY Analysis:</strong> {motivation ? `Personal motivation appears in the phrase "${motivation.substring(0, 50)}..." which reveals deeper purpose behind the work.` : 'The speech lacks explicit motivation or "why" statements that would create emotional connection.'} 
+        {motivation ? ' This emotional element helps listeners understand what drives the speaker beyond professional obligations.' : ' Adding statements like "I believe..." or "What drives me is..." would strengthen audience connection.'}
+      </div>
+      
+      <div className="mb-0">
+        <strong>Improvement Opportunities:</strong> 
+        {sentences.length > 15 ? ' Consider shortening some sentences for better spoken delivery. ' : ''}
+        {!hasTransitions ? 'Add transitional phrases between sections like "Now, here\'s what I do..." or "And here\'s why this matters to me..." ' : ''}
+        {wordCount > 320 ? 'The speech is slightly long - trim to under 300 words for optimal timing. ' : ''}
+        {!speech.includes('you') ? 'Include direct audience address with "you" to create connection. ' : ''}
+        Specific enhancement: {speakerName ? `${speakerName} could add` : 'Add'} a concrete example like "Last month, I helped a client achieve [specific result]" and end with "I'd love to hear about your [relevant challenge/goal]" to encourage conversation.
+      </div>
+    </div>
+  );
+}
+
 interface GeneratedSpeechProps {
   speech: GenerateSpeechResponse;
   onRegenerate: (newSpeech?: GenerateSpeechResponse) => void;
@@ -93,27 +145,7 @@ export default function GeneratedSpeech({ speech, onRegenerate, formData }: Gene
         <div className="bg-gray-50 rounded-lg p-6 mb-6 border border-gray-200">
           <h3 className="text-lg font-bold text-gray-900 mb-4 drop-shadow-sm">Speech Analysis</h3>
           
-          <div className="prose prose-sm max-w-none text-gray-700 font-medium leading-relaxed">
-            <p className="mb-4">
-              The speech effectively follows the Who-What-Why framework, creating a compelling narrative that connects with the audience on multiple levels.
-            </p>
-            
-            <div className="mb-4">
-              <strong>WHO Analysis:</strong> The speech opens by establishing identity and credibility with a clear introduction. {speech.speech.includes('I\'m') || speech.speech.includes('My name') ? 'The speaker introduces themselves by name, immediately establishing personal connection.' : 'The speech could be strengthened by including the speaker\'s name for personal connection.'} The background context helps listeners understand the speaker's journey and qualifications, making them both relatable and trustworthy.
-            </div>
-            
-            <div className="mb-4">
-              <strong>WHAT Analysis:</strong> The speech articulates the specific value provided and target audience. {speech.speech.length > 200 ? 'The middle section details the work performed and its impact on specific groups.' : 'This section could be expanded with more specific details about services provided.'} Rather than simply stating job titles, the content focuses on concrete outcomes and real-world benefits that resonate with listeners.
-            </div>
-            
-            <div className="mb-4">
-              <strong>WHY Analysis:</strong> The speech reveals deeper motivation and personal beliefs driving the work. {speech.speech.includes('because') || speech.speech.includes('why') || speech.speech.includes('believe') ? 'Personal motivation is clearly expressed, creating emotional resonance.' : 'Adding explicit motivation statements would strengthen emotional connection.'} This component helps the audience understand what truly matters to the speaker beyond professional obligations.
-            </div>
-            
-            <div className="mb-0">
-              <strong>Improvement Opportunities:</strong> The speech could benefit from more specific metrics or brief success stories to illustrate impact. Adding transitional phrases between framework sections would improve flow. Consider including a subtle invitation for follow-up conversations to maximize networking potential and leave listeners with a clear next step.
-            </div>
-          </div>
+          <SpeechAnalysisContent speech={speech.speech} />
         </div>
 
         {/* AI Disclaimer */}
